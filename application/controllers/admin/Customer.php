@@ -46,6 +46,14 @@ class Customer extends MY_Controller
 		$data['view'] = 'admin/customer/add_customer';
 		$this->load->view('layout', $data);
 	}
+	public function customer_del($id = 0)
+	{
+		if ($id != 0) {
+			$this->db->where('id', $id);
+			$this->db->delete('customer');
+			redirect(base_url('admin/customer'));
+		}
+	}
 
 	public function department()
 	{
@@ -55,6 +63,14 @@ class Customer extends MY_Controller
 		$this->load->view('layout', $data);
 	}
 
+	public function department_del($id = 0)
+	{
+		if ($id != 0) {
+			$this->db->where('id', $id);
+			$this->db->delete('customer_department');
+			redirect(base_url('admin/customer/department'));
+		}
+	}
 
 	public function add_department($id = 0)
 	{
@@ -99,15 +115,23 @@ class Customer extends MY_Controller
 		$this->load->view('layout', $data);
 	}
 
+	public function reports_del($id = 0)
+	{
+		if ($id != 0) {
+			$this->db->where('id', $id);
+			$this->db->delete('reports');
+			redirect(base_url('admin/customer/reports'));
+		}
+	}
+
 	public function add_reports($id = 0)
 	{
 		if ($id != 0) {
 			$data['reports'] = $this->db->get_where('reports', array('id =' => $id))->row_array();
 			$data['selected_department'] = $this->db->get_where('customer_department', array('id =' => $data['reports']['id']))->row_array();
-			
 		}
 		if ($this->input->post('submit')) {
-			
+
 
 			// Upload Document Here
 			$path = 'uploads';
@@ -175,12 +199,10 @@ class Customer extends MY_Controller
 	{
 		$cust_id =  $this->input->get('cust_id');
 		$cust_dept =  $this->input->get('cust_dept');
-		if(!empty($cust_dept)){
+		if (!empty($cust_dept)) {
 			$departments = $this->db->get_where('customer_department', array('id =' => $cust_dept))->row_array();
 			echo json_encode($departments);
-
-		}
-		else {
+		} else {
 
 			$departments = $this->db->get_where('customer_department', array('cust_id =' => $cust_id))->result_array();
 			if (!empty($departments)) {

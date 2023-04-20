@@ -5,9 +5,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Add Leaves
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+                <!-- <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a> -->
             </div>
             <div class="body">
 
@@ -26,19 +26,20 @@
                     </div>
 
 
-                    <?php echo form_open(base_url('admin/customer/add_department/' . $id), 'class="form-horizontal"');  ?>
+                    <?php echo form_open(base_url('admin/hr/add_leaves/' . $id), 'class="form-horizontal"');  ?>
+
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Customer Name</label>
+                            <label for="username">Employee</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick live_search" data-live-search="true" name="cust_id" required >
-                                        <!-- <option value="">-- Please select --</option> -->
-                                        <?php foreach ($customer_data as $group) : ?>
-                                            <option value="<?= $group['cust_id']; ?>" <?= ($customer_dept['cust_id'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option>
+                                    <select class="form-control show-tick live_search department_change" data-live-search="true" name="employee_name" required>
+                                        <option value="">-- Please select --</option>
+                                        <?php foreach ($employees as $group) : ?>
+                                            <option value="<?= $group['id']; ?>" <?= ($department['employee_name'] == $group['id'] ? 'selected' : '') ?>><?= $group['emp_name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -48,25 +49,20 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Department</label>
+                            <label for="group">Year</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_depart" class="form-control" value="<?= ($customer_dept['cust_depart']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">End User Name</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="end_user_name" class="form-control" value="<?= ($customer_dept['end_user_name']) ?>" required>
+                                    <select class="form-control show-tick" name="leave_year" required>
+                                        <option value="">-- Please select --</option>
+                                        <option value="2018" <?= ($department['leave_year'] == '2018' ? 'selected' : '') ?>>2018</option>
+                                        <option value="2019" <?= ($department['leave_year'] == '2019' ? 'selected' : '') ?>>2019</option>
+                                        <option value="2020" <?= ($department['leave_year'] == '2020' ? 'selected' : '') ?>>2020</option>
+                                        <option value="2021" <?= ($department['leave_year'] == '2021' ? 'selected' : '') ?>>2021</option>
+                                        <option value="2022" <?= ($department['leave_year'] == '2022' ? 'selected' : '') ?>>2022</option>
+                                        <option value="2023" <?= ($department['leave_year'] == '2023' ? 'selected' : '') ?>>2023</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -75,12 +71,12 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Contact Number</label>
+                            <label for="username">Leave (CI)</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="contact_no" class="form-control" value="<?= ($customer_dept['contact_no']) ?>" required>
+                                    <input type="number" name="cl" class="form-control" value="<?= ($department['cl']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -88,12 +84,12 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Email</label>
+                            <label for="username">Leave (EI)</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="email_id" class="form-control" value="<?= ($customer_dept['email_id']) ?>" required>
+                                    <input type="number" name="al" class="form-control" value="<?= ($department['al']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -101,31 +97,18 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Location</label>
+                            <label for="username">Leave (SL)</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_location" class="form-control" value="<?= ($customer_dept['cust_location']) ?>" required>
+                                    <input type="number" name="cc" class="form-control" value="<?= ($department['cc']) ?>" required>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Address</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_address" class="form-control" value="<?= ($customer_dept['cust_address']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
+                  
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
                             <input type="submit" name="submit" value="ADD" class="btn btn-primary m-t-15 waves-effect">

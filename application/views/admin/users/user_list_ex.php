@@ -8,7 +8,7 @@
 		<div class="card">
 			<div class="header">
 				<h2 style="display: inline-block;">
-					Employee List
+					Ex Employee List
 				</h2>
 				<a href="<?= base_url('admin/users/add'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> ADD NEW USER</a>
 			</div>
@@ -41,14 +41,14 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Delete</h4>
+				<h4 class="modal-title">Restore</h4>
 			</div>
 			<div class="modal-body">
-				<p>As you sure you want to delete.</p>
+				<p>As you sure you want to restore.</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<a class="btn btn-danger btn-ok">Delete</a>
+				<a class="btn btn-danger btn-ok">Restore</a>
 			</div>
 		</div>
 	</div>

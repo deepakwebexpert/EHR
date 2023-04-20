@@ -5,9 +5,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Create New Attribute Detail
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+                <!-- <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a> -->
             </div>
             <div class="body">
 
@@ -26,19 +26,39 @@
                     </div>
 
 
-                    <?php echo form_open(base_url('admin/customer/add_department/' . $id), 'class="form-horizontal"');  ?>
+                    <?php echo form_open(base_url('admin/appraisal/add_attribute_details/' . $id), 'class="form-horizontal"');  ?>
+
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Customer Name</label>
+                            <label for="group">Employee Type</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick live_search" data-live-search="true" name="cust_id" required >
-                                        <!-- <option value="">-- Please select --</option> -->
-                                        <?php foreach ($customer_data as $group) : ?>
-                                            <option value="<?= $group['cust_id']; ?>" <?= ($customer_dept['cust_id'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option>
+                                    <select class="form-control show-tick" name="emp_type" required>
+                                        <option value="">-- Please select --</option>
+                                        <option value="Administrator (HR)" <?= ($department['emp_type'] == 'Administrator (HR)' ? 'selected' : '') ?>>Administrator (HR)</option>
+                                        <option value="Sub Admin (Team Lead)" <?= ($department['emp_type'] == 'Sub Admin (Team Lead)' ? 'selected' : '') ?>>Sub Admin (Team Lead)</option>
+                                        <option value="Executive" <?= ($department['emp_type'] == 'Executive' ? 'selected' : '') ?>>Executive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="username">Attribute Name</label>
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control show-tick live_search department_change" data-live-search="true" name="attribute_name" required>
+                                        <option value="">-- Please select --</option>
+                                        <?php foreach ($attribute as $group) : ?>
+                                            <option value="<?= $group['id']; ?>" <?= ($department['attribute_name'] == $group['id'] ? 'selected' : '') ?>><?= $group['attribute_title']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -46,27 +66,15 @@
                         </div>
                     </div>
 
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Department</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_depart" class="form-control" value="<?= ($customer_dept['cust_depart']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">End User Name</label>
+                            <label for="group">Item</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="end_user_name" class="form-control" value="<?= ($customer_dept['end_user_name']) ?>" required>
+                                    <input type="number" name="title" class="form-control" value="<?= ($department['title']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -75,12 +83,28 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Contact Number</label>
+                            <label for="group">Description</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="contact_no" class="form-control" value="<?= ($customer_dept['contact_no']) ?>" required>
+                                    <textarea id="ckeditor" name="description" required>
+                                            <?= $department['description'] ?>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="group">Maximum Rating</label>
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="number" name="weightage" class="form-control" value="<?= ($department['weightage']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -88,42 +112,21 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Email</label>
+                            <label for="group">For Purpose</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="email_id" class="form-control" value="<?= ($customer_dept['email_id']) ?>" required>
+                                    <select class="form-control show-tick" name="type" required>
+                                        <option value="">-- Please select --</option>
+                                        <option value="1" <?= ($department['type'] == '1' ? 'selected' : '') ?>>Employee</option>
+                                        <option value="0" <?= ($department['type'] == '0' ? 'selected' : '') ?>>HR</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Location</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_location" class="form-control" value="<?= ($customer_dept['cust_location']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Address</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_address" class="form-control" value="<?= ($customer_dept['cust_address']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
                     <div class="row clearfix">
@@ -137,3 +140,9 @@
         </div>
     </div>
 </div>
+<script src="<?= base_url() ?>public/plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    //CKEditor
+    CKEDITOR.replace('ckeditor');
+    CKEDITOR.config.height = 300;
+</script>>

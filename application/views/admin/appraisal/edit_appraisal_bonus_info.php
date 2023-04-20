@@ -5,9 +5,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Edit
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+                
             </div>
             <div class="body">
 
@@ -26,21 +26,17 @@
                     </div>
 
 
-                    <?php echo form_open(base_url('admin/customer/add_department/' . $id), 'class="form-horizontal"');  ?>
+                    <?php echo form_open(base_url('admin/appraisal/edit_appraisal_bonus_info/' . $id), 'class="form-horizontal"');  ?>
 
+                    
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Customer Name</label>
+                            <label for="group">A+</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick live_search" data-live-search="true" name="cust_id" required >
-                                        <!-- <option value="">-- Please select --</option> -->
-                                        <?php foreach ($customer_data as $group) : ?>
-                                            <option value="<?= $group['cust_id']; ?>" <?= ($customer_dept['cust_id'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <input type="text" name="yan_a_plus" class="form-control" value="<?= ($increment['yan_a_plus']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -48,12 +44,12 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Department</label>
+                            <label for="group">A</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_depart" class="form-control" value="<?= ($customer_dept['cust_depart']) ?>" required>
+                                    <input type="text" name="yan_a" class="form-control" value="<?= ($increment['yan_a']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -61,26 +57,12 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">End User Name</label>
+                            <label for="group">B</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="end_user_name" class="form-control" value="<?= ($customer_dept['end_user_name']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Contact Number</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="contact_no" class="form-control" value="<?= ($customer_dept['contact_no']) ?>" required>
+                                    <input type="text" name="yan_b" class="form-control" value="<?= ($increment['yan_b']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -88,12 +70,12 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Email</label>
+                            <label for="group">C</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="email_id" class="form-control" value="<?= ($customer_dept['email_id']) ?>" required>
+                                    <input type="text" name="yan_c" class="form-control" value="<?= ($increment['yan_c']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -101,30 +83,17 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Location</label>
+                            <label for="group">D</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_location" class="form-control" value="<?= ($customer_dept['cust_location']) ?>" required>
+                                    <input type="text" name="yan_d" class="form-control" value="<?= ($increment['yan_d']) ?>" required>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Address</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_address" class="form-control" value="<?= ($customer_dept['cust_address']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    
 
                     <div class="row clearfix">
                         <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">

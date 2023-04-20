@@ -5,9 +5,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Create New Attribute Detail
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+                <!-- <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a> -->
             </div>
             <div class="body">
 
@@ -26,48 +26,58 @@
                     </div>
 
 
-                    <?php echo form_open(base_url('admin/customer/add_customer/' . $id), 'class="form-horizontal"');  ?>
+                    <?php echo form_open(base_url('admin/appraisal/add_salaryrange/' . $id), 'class="form-horizontal"');  ?>
+
 
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Name</label>
+                            <label for="group">Min Salary</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_name" class="form-control" value="<?= ($customer['cust_name']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Location</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_location" class="form-control" value="<?= ($customer['cust_location']) ?>" required>
+                                    <input type="number" name="min_salary" class="form-control" value="<?= ($department['min_salary']) ?>" required>
                                 </div>
                             </div>
                         </div>
                     </div>
 
 
+
+
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Address</label>
+                            <label for="group">Max Salary</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_address" class="form-control" value="<?= ($customer['cust_address']) ?>" required>
+                                    <input type="number" name="max_salary" class="form-control" value="<?= ($department['max_salary']) ?>" required>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="username">Designation</label>
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control show-tick live_search department_change" data-live-search="true" name="designation" required>
+                                        <!-- <option value="">-- Please select --</option> -->
+                                        <?php foreach ($designation as $group) : ?>
+                                            <option value="<?= $group['name']; ?>" <?= ($department['designation'] == $group['name'] ? 'selected' : '') ?>><?= $group['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
 
 

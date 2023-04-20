@@ -117,5 +117,5 @@
 	$('#confirm-delete').on('show.bs.modal', function(e) {
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 	});
-	$("#user_list").addClass('active');
+	$("#Employee").addClass('active');
 </script>

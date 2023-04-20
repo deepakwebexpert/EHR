@@ -35,8 +35,8 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick customer_change" name="cust_id">
-                                        <option value="">-- Please select --</option>
+                                    <select class="form-control show-tick customer_change live_search" data-live-search="true"  name="cust_id" required>
+                                        <!-- <option value="">-- Please select --</option> -->
                                         <?php foreach ($customer_data as $group) : ?>
                                             <option value="<?= $group['cust_id']; ?>" <?= ($reports['cust_id'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option>
                                         <?php endforeach; ?>
@@ -53,7 +53,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick department_change" name="cust_dept">
+                                    <select class="form-control show-tick department_change" name="cust_dept" required>
                                         <option value="<?= $selected_department['cust_id']; ?>"><?= $selected_department['cust_depart']; ?></option>
 
                                     </select>
@@ -135,7 +135,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="po_no" class="form-control" value="<?= ($reports['po_no']) ?>">
+                                    <input type="text" name="po_no" class="form-control" value="<?= ($reports['po_no']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="po_value" class="form-control" value="<?= ($reports['po_value']) ?>">
+                                    <input type="text" name="po_value" class="form-control" value="<?= ($reports['po_value']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="instrument" class="form-control" value="<?= ($reports['instrument']) ?>">
+                                    <input type="text" name="instrument" class="form-control" value="<?= ($reports['instrument']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="model_no" class="form-control" value="<?= ($reports['model_no']) ?>">
+                                    <input type="text" name="model_no" class="form-control" value="<?= ($reports['model_no']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +187,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="serial_no" class="form-control" value="<?= ($reports['serial_no']) ?>">
+                                    <input type="text" name="serial_no" class="form-control" value="<?= ($reports['serial_no']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="ld_clause" class="form-control" value="<?= ($reports['ld_clause']) ?>">
+                                    <input type="text" name="ld_clause" class="form-control" value="<?= ($reports['ld_clause']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="shipment_date" class="form-control" value="<?= ($reports['shipment_date']) ?>">
+                                    <input type="text" name="shipment_date" class="form-control" value="<?= ($reports['shipment_date']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +226,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="installation_date" class="form-control" value="<?= ($reports['installation_date']) ?>">
+                                    <input type="text" name="installation_date" class="form-control" value="<?= ($reports['installation_date']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="warranty_duration" class="form-control" value="<?= ($reports['warranty_duration']) ?>">
+                                    <input type="text" name="warranty_duration" class="form-control" value="<?= ($reports['warranty_duration']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +252,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="warranty_start_date" class="form-control" value="<?= ($reports['warranty_start_date']) ?>">
+                                    <input type="text" name="warranty_start_date" class="form-control" value="<?= ($reports['warranty_start_date']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="warranty_end_date" class="form-control" value="<?= ($reports['warranty_end_date']) ?>">
+                                    <input type="text" name="warranty_end_date" class="form-control" value="<?= ($reports['warranty_end_date']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="file" name="additional_documents" class="form-control" value="">
+                                    <input type="file" name="additional_documents" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -291,7 +291,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="amc_amount" class="form-control" value="<?= ($reports['amc_amount']) ?>">
+                                    <input type="text" name="amc_amount" class="form-control" value="<?= ($reports['amc_amount']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -304,7 +304,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="amc_duration" class="form-control" value="<?= ($reports['amc_duration']) ?>">
+                                    <input type="text" name="amc_duration" class="form-control" value="<?= ($reports['amc_duration']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -317,7 +317,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="date" name="amc_start_date" class="form-control" value="<?= ($reports['amc_start_date']) ?>">
+                                    <input type="date" name="amc_start_date" class="form-control" value="<?= ($reports['amc_start_date']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -330,7 +330,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="date" name="amc_end_date" class="form-control" value="<?= ($reports['amc_end_date']) ?>">
+                                    <input type="date" name="amc_end_date" class="form-control" value="<?= ($reports['amc_end_date']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -343,7 +343,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="visit_count" class="form-control" value="<?= ($reports['visit_count']) ?>">
+                                    <input type="text" name="visit_count" class="form-control" value="<?= ($reports['visit_count']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -356,7 +356,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="pm_breakdown_count" class="form-control" value="<?= ($reports['pm_breakdown_count']) ?>">
+                                    <input type="text" name="pm_breakdown_count" class="form-control" value="<?= ($reports['pm_breakdown_count']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -369,7 +369,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="status" class="form-control" value="<?= ($reports['status']) ?>">
+                                    <input type="text" name="status" class="form-control" value="<?= ($reports['status']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -382,7 +382,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="file" name="required_documents" class="form-control">
+                                    <input type="file" name="required_documents" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -400,6 +400,7 @@
     </div>
 </div>
 
+
 <script>
     $(".customer_change").change(function() {
         var cust_id = $(this).val();
@@ -410,10 +411,10 @@
             })
             .done(function(data) {
 
-                $('.department_change').empty();
-                $('.department_change').append('<option value=0>Select Department</option>');
+                $('.department_change:last').empty();
+                $('.department_change:last').append('<option value=0>Select Department</option>');
                 $.each(JSON.parse(data), function(key, value) {
-                    $('.department_change').append('<option value="' + value.id + '">' + value.name + '</option>');
+                    $('.department_change:last').append('<option value="' + value.id + '">' + value.name + '</option>');
                 });
 
                 $("#end_user_name").val(' ');
@@ -421,7 +422,7 @@
                 $("#email_id").val(' ');
                 $("#cust_location").val(' ');
                 $("#cust_address").val(' ');
-
+                $('.department_change').selectpicker('refresh');
 
             });
 

@@ -32,24 +32,32 @@
 			<li class="header">Main Navigation</li>
 			<?php
 			$group_id = $this->session->userdata['group_id'];
+			// echo $group_id; die;
 			$this->db->distinct();
+			$this->db->order_by("jeol_modules_tbl.order_id", "asc");
 			$this->db->select('menu_id,jeol_modules_tbl.name');
 			$this->db->join('jeol_modules_tbl', 'jeol_modules_tbl.id = tbl_perrmission.menu_id', 'left');
 			$this->db->where('group_id', $group_id);
 			$result = $this->db->get('tbl_perrmission')->result_array();
 
+			// print_r($result); die;
 			foreach ($result as $key => $value) :
 
 				// Get Sub Menu Here
 				$this->db->select('sub_menu_id,jeol_modules_tbl.name,link_url');
 				$this->db->join('jeol_modules_tbl', 'jeol_modules_tbl.id = tbl_perrmission.sub_menu_id', 'left');
+				$this->db->order_by("jeol_modules_tbl.order_id", "asc");
 				$this->db->where('group_id', $group_id);
 				$this->db->where('menu_id', $value['menu_id']);
 				$this->db->where('tbl_perrmission.status', 1);
 				$subMenus = $this->db->get('tbl_perrmission')->result_array();
-				if (count($subMenus) > 0) { ?>
+// echo 				$this->db->last_query();; die;
 
-					<li id="users">
+				// print_r(($subMenus)); 
+				if (count($subMenus) > 1) {
+			?>
+
+					<li id="<?= $value['name'] ?>">
 						<a href="javascript:void(0);" class="menu-toggle">
 							<i class="material-icons">person</i>
 							<span><?= $value['name'] ?></span>
@@ -57,9 +65,11 @@
 						<ul class="ml-menu">
 
 							<?php
-							foreach ($subMenus as $key1 => $value1) :  ?>
-								<li id="user_list">
-									<a href="<?= base_url($value1['link_url']); ?>"><?= $value1['name']?></a>
+							foreach ($subMenus as $key1 => $value1) :
+								if (empty($value1['sub_menu_id'])) continue;
+							?>
+								<li id="<?= $value1['name'] ?>">
+									<a href="<?= base_url($value1['link_url']); ?>"><?= $value1['name'] ?></a>
 								</li>
 							<?php endforeach;
 
@@ -70,7 +80,7 @@
 					</li>
 				<?php } else { ?>
 					<li id="dashboard">
-						<a href="<?= base_url('admin/dashboard'); ?>">
+						<a href="<?= base_url('user/dashboard'); ?>">
 							<i class="material-icons">home</i>
 							<span><?= $value['name'] ?></span>
 						</a>

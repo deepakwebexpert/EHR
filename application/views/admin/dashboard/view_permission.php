@@ -27,7 +27,11 @@
                                     <td><?= ++$i; ?></td>
                                     <td><?= $row['name']; ?></td>
                                     <td>
-                                        <input type="checkbox" data-menu_id="<?= ($row['id']) ?>" class="form-control save_menu" style="opacity:1;position:inherit">
+                                        <?php
+                                        $checked = $this->db->get_where('tbl_perrmission', array('group_id' => $id, 'menu_id' => $row['id'], 'sub_menu_id' => NULL, 'status' => 1))->num_rows();
+
+                                        ?>
+                                        <input type="checkbox" data-menu_id="<?= ($row['id']) ?>" class="form-control save_menu" style="opacity:1;position:inherit" <?= ($checked == 1 ? "checked" : '') ?>>
                                     </td>
                                     <td>
                                         <table>
@@ -40,13 +44,16 @@
                                             <tbody>
                                                 <?php
                                                 $subMenus = $this->db->get_where('jeol_modules_tbl', array('par_id =' => $row['id'], 'status' => 1))->result_array();
+
+                                                // print_r($subMenus); die;
                                                 foreach ($subMenus as $key1 => $value1) {
 
 
+                                                    $checked = $this->db->get_where('tbl_perrmission', array('group_id' => $id, 'menu_id' => $value1['par_id'], 'sub_menu_id' => $value1['id'], 'status' => 1))->num_rows();
                                                 ?>
                                                     <tr>
                                                         <td><?= ($value1['name']) ?></td>
-                                                        <td> <input type="checkbox" data-menu_id="<?= ($row['id']) ?>" data-sub_menu_id="<?= ($value1['id']) ?>" class="save_menu form-control" style="opacity:1;position:inherit"></td>
+                                                        <td> <input type="checkbox" data-menu_id="<?= ($row['id']) ?>" data-sub_menu_id="<?= ($value1['id']) ?>" class="save_menu form-control" style="opacity:1;position:inherit" <?= ($checked == 1 ? "checked" : '') ?>></td>
                                                     </tr>
                                                 <?php } ?>
                                             </tbody>

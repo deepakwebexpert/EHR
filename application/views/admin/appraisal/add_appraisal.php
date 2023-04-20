@@ -5,9 +5,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Create New Attribute
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+                <!-- <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a> -->
             </div>
             <div class="body">
 
@@ -26,17 +26,17 @@
                     </div>
 
 
-                    <?php echo form_open(base_url('admin/customer/add_customer/' . $id), 'class="form-horizontal"');  ?>
+                    <?php echo form_open(base_url('admin/appraisal/add_appraisal/' . $id), 'class="form-horizontal"');  ?>
 
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Name</label>
+                            <label for="username">Attribute Name</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_name" class="form-control" value="<?= ($customer['cust_name']) ?>" required>
+                                    <input type="text" name="attribute_title" class="form-control" value="<?= ($department['attribute_title']) ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -44,26 +44,16 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Location</label>
+                            <label for="group">Status</label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="cust_location" class="form-control" value="<?= ($customer['cust_location']) ?>" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Customer Address</label>
-                        </div>
-                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <input type="text" name="cust_address" class="form-control" value="<?= ($customer['cust_address']) ?>" required>
+                                    <select class="form-control show-tick" name="status" required>
+                                        <option value="">-- Please select --</option>
+                                        <option value="Active" <?= ($department['Status'] == 'Active' ? 'selected' : '') ?>>Active</option>
+                                        <option value="Inactive" <?= ($department['Status'] == 'Inactive' ? 'selected' : '') ?>>Inactive</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

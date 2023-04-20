@@ -79,7 +79,7 @@
     <!-- Bootstrap Core Js -->
     <script src="<?= base_url()?>public/plugins/bootstrap/js/bootstrap.js"></script>
     <!-- Select Plugin Js -->
-    <!-- <script src="<?= base_url()?>public/plugins/bootstrap-select/js/bootstrap-select.js"></script> -->
+    <script src="<?= base_url()?>public/plugins/bootstrap-select/js/bootstrap-select.js"></script>
     <!-- Slimscroll Plugin Js -->
     <script src="<?= base_url()?>public/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
     <!-- Waves Effect Plugin Js -->

@@ -6,9 +6,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Customer Listing
+                    Timesheet Schedule
                 </h2>
-                <a href="<?= base_url('admin/customer/add_customer'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Add New</a>
+                <a href="<?= base_url('user/schedule/add_schedule'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Add New</a>
             </div>
             <div class="body">
                 <div class="table-responsive">
@@ -16,28 +16,36 @@
                         <thead>
                             <tr>
                                 <th>S#</th>
-                                <th>Customer Id</th>
-                                <th>Customer Name</th>
-                                <th>Customer Location</th>
-                                <th>Customer Address</th>
+                                <th>Meeting Agenda</th>
+                                <th>Company Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Description</th>
+                                <th>Service</th>
+                                <th>Dwonload</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 0;
-                            foreach ($department as $row) :
+                            foreach ($schedule as $row) :
                             ?>
                                 <tr>
                                     <td><?= ++$i; ?></td>
-                                    <td><?= $row['cust_id']; ?></td>
-                                    <td><?= $row['cust_name']; ?></td>
-                                    <td><?= $row['cust_location']; ?></td>
-                                    <td><?= $row['cust_address']; ?></td>
+                                    <td><?= $row['meeting_agenda']; ?></td>
+                                    <td><?= $row['company'] . '   ' . $this->db->get_where('customer_department', array('id =' => $row['department']))->row()->cust_depart . '  ' . $this->db->get_where('reports', array('id =' => $row['project']))->row()->instrument; ?></td>
+                                    <!-- <td><?= $row['start_time_appm']; ?></td> -->
+                                    <!-- <td><?= $row['end_time_appm']; ?></td> -->
+                                    <td><?= $row['start_date'] . '  ' . $row['start_time_appm']; ?></td>
+                                    <td><?= $row['end_date'] . '  ' . $row['end_time_appm']; ?></td>
+                                    <td><?= $row['description']; ?></td>
+                                    <td><?= $row['service_type']; ?></td>
+                                    <td><a target="_blank" href="<?= base_url('uploads/' . $row['document']); ?>">Download</a></td>
                                     <td class="c">
-                                        <a title="Edit" class="update btn btn-sm btn-primary m-r-10" href="<?= (base_url('admin/customer/add_customer/' . $row['id'])) ?>">
+                                        <a title="Edit" class="update btn btn-sm btn-primary m-r-10" href="<?= (base_url('user/schedule/add_schedule/' . $row['id'])) ?>">
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href=<?= base_url('admin/customer/customer_del/' . $row['id']) ?> data-toggle="modal" data-target="#confirm-delete">
+                                        <a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href="<?= base_url('user/schedule/del_schedule/' . $row['id']) ?>" data-toggle="modal" data-target="#confirm-delete">
                                             <i class="material-icons">delete</i>
                                         </a>
                                         <!-- <a href="<?= (base_url('admin/customer/add_customer/' . $row['id'])) ?>">Edit</a> | <a href="">Delete</a> -->

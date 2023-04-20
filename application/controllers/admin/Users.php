@@ -83,7 +83,10 @@ class Users extends MY_Controller
 				$row['emp_status'],
 
 
-				'<a title="Restore" class="update btn btn-sm btn-primary" href="' . base_url('admin/users/restore/' . $row['id']) . '"> <i class="material-icons">restore</i></a>',
+				// '<a title="Restore" class="update btn btn-sm btn-primary" href="' . base_url('admin/users/restore/' . $row['id']) . '"> <i class="material-icons">restore</i></a>',
+				'<a title="Restore" class="update btn btn-sm btn-primary" data-href="' . base_url('admin/users/restore/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">restore</i></a>',
+
+				
 
 			);
 		}
@@ -164,7 +167,7 @@ class Users extends MY_Controller
 					'last_ip' => 'dddd',
 					'created_at' => date('Y-m-d : h:m:s'),
 					'updated_at' => date('Y-m-d : h:m:s'),
-					'goup_id' => $this->input->post('group_id'),
+					'group_id' => $this->input->post('group_id'),
 					'user_status' => 1,
 				);
 				$result = $this->user_model->add_user($userData);
@@ -249,7 +252,7 @@ class Users extends MY_Controller
 					'last_ip' => 'dddd',
 					'created_at' => date('Y-m-d : h:m:s'),
 					'updated_at' => date('Y-m-d : h:m:s'),
-					'goup_id' => $this->input->post('group_id'),
+					'group_id' => $this->input->post('group_id'),
 					'user_status' => 1,
 				);
 				$result = $this->user_model->edit_user($userData, $id);

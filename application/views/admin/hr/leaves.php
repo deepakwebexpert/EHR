@@ -5,8 +5,10 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>Projects</h2>
-                <a href="<?= base_url('admin/customer/add_reports'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Add New</a>
+                <h2>
+                    Employee Leaves
+                </h2>
+                <a href="<?= base_url('admin/hr/add_leaves'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Add New</a>
             </div>
             <div class="body">
                 <div class="table-responsive">
@@ -14,36 +16,41 @@
                         <thead>
                             <tr>
                                 <th>S#</th>
-                                <th>Customer Id</th>
-                                <th>Customer Name</th>
-                                <th>Customer Instrument</th>
-                                <th>Model Number</th>
-                                <!-- <th>Contact Number</th> -->
+                                <th>Employee</th>
+                                <th>CI</th>
+                                <th>EI</th>
+                                <th>SI</th>
+                                <th>Used CI</th>
+                                <th>Used EI</th>
+                                <th>Used SI</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 0;
-                            foreach ($reports as $row) :
+                            foreach ($department as $row) :
                             ?>
                                 <tr>
                                     <td><?= ++$i; ?></td>
-                                    <td><?= $row['cust_id']; ?></td>
-                                    <td><?= $this->db->get_where('customer', array('cust_id =' => $row['cust_id']))->row()->cust_name; ?></td>
-                                    <td><?= $row['instrument']; ?></td>
-                                    <td><?= $row['model_no']; ?></td>
-                                    <!-- <td><?= $row['contact_no']; ?></td> -->
-                                    <td class="c">
-                                        <!-- <a href="<?= (base_url('admin/customer/add_reports/' . $row['id'])) ?>">Edit</a> | <a href="">Delete</a> -->
+                                    <td><?= $this->db->get_where('jeol_employee_tbl', array('id =' =>  $row['employee_name']))->row()->emp_name; ?></td>
 
-                                        <a title="Edit" class="update btn btn-sm btn-primary m-r-10" href="<?= (base_url('admin/customer/add_reports/' . $row['id']))  ?>">
+                                    <td><?= $row['cl']; ?></td>
+                                    <td><?= $row['al']; ?></td>
+                                    <td><?= $row['cc']; ?></td>
+
+
+                                    <td>0 <?= '<b>Remaining:</b> '.$row['cl']; ?></td>
+                                    <td>0 <?= '<b>Remaining:</b> '.$row['al']; ?></td>
+                                    <td>0 <?= '<b>Remaining:</b> '.$row['cc']; ?></td>
+
+
+                                    <td class="c">
+                                        <a title="Edit" class="update btn btn-sm btn-primary m-r-10" href=<?= base_url('admin/hr/add_leaves/' . $row['id']) ?>>
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href=<?= base_url('admin/customer/reports_del/' . $row['id']) ?> data-toggle="modal" data-target="#confirm-delete">
+                                        <a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href=<?= base_url('admin/hr/del_leaves/' . $row['id']) ?> data-toggle="modal" data-target="#confirm-delete">
                                             <i class="material-icons">delete</i>
                                         </a>
-
-
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -54,8 +61,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Modal -->
 <div id="confirm-delete" class="modal fade" role="dialog">
@@ -76,6 +81,7 @@
         </div>
     </div>
 </div>
+
 <script>
     //Delete Dialogue
     $('#confirm-delete').on('show.bs.modal', function(e) {
