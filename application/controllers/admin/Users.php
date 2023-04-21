@@ -33,7 +33,7 @@ class Users extends MY_Controller
 			$reported_ids = $row['report_to'];
 			$ids = explode(",", $reported_ids);
 			$names = '';
-			// print_r($ids); die;
+
 			foreach ($ids as $key => $value) {
 				$names .= $this->db->get_where('jeol_employee_tbl', array('id =' => $value))->row()->emp_name . '  ,';
 			}
@@ -86,7 +86,7 @@ class Users extends MY_Controller
 				// '<a title="Restore" class="update btn btn-sm btn-primary" href="' . base_url('admin/users/restore/' . $row['id']) . '"> <i class="material-icons">restore</i></a>',
 				'<a title="Restore" class="update btn btn-sm btn-primary" data-href="' . base_url('admin/users/restore/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">restore</i></a>',
 
-				
+
 
 			);
 		}
@@ -325,6 +325,66 @@ class Users extends MY_Controller
 		}
 		$data['id'] = $id;
 		$data['view'] = 'admin/users/add_department';
+		$this->load->view('layout', $data);
+	}
+
+	public function schedular()
+	{
+
+		$data['schedule'] = $this->db->get('schedule')->result_array();
+		$data['view'] = 'admin/schedular/schedular';
+		$this->load->view('layout', $data);
+	}
+
+	public function local_travel_log_sheet($curr_year = "2023")
+	{
+
+		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.claim_date,travel.end_date,travel.status,travel.emp_status,travel.end_time_type,travel.ttl_duration,travel.start_time_type,travel.start_time,travel.end_time,travel.member_id  FROM `jeol_travelsheet_log_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and year(travel.claim_date) = '$curr_year' order by travel.claim_date desc";
+
+		$data['emp_data'] = $this->db->query($sql)->result_array();
+
+
+		$data['year'] = $curr_year;
+		$data['view'] = 'admin/schedular/local_travel_log_sheet';
+		$this->load->view('layout', $data);
+	}
+
+	public function local_claim($curr_year = "2023")
+	{
+
+		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.ttl_duration,travel.status,travel.member_id  FROM `jeol_travelclaimsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and year(travel.claim_date) = '$curr_year' order by  travel.ttl_duration asc";
+
+		$data['emp_data'] = $this->db->query($sql)->result_array();
+
+
+		$data['year'] = $curr_year;
+		$data['view'] = 'admin/schedular/local_claim';
+		$this->load->view('layout', $data);
+	}
+
+	public function domestic_travel_claim($curr_year = "2023")
+	{
+
+		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.status,travel.emp_status,travel.end_time_type,travel.start_time_type,travel.start_time,travel.end_time,travel.member_id  FROM `jeol_travelsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and travel.sheet_type='0' and year(travel.claim_date) = '$curr_year' order by travel.status desc";
+
+		$data['emp_data'] = $this->db->query($sql)->result_array();
+
+
+		$data['year'] = $curr_year;
+		$data['view'] = 'admin/schedular/domestic_travel_claim';
+		$this->load->view('layout', $data);
+	}
+
+	public function overseas_travel_claim($curr_year = "2023")
+	{
+
+		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.status,travel.member_id  FROM `jeol_travelsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and travel.sheet_type='1' and year(travel.claim_date) = '$curr_year' ";
+
+		$data['emp_data'] = $this->db->query($sql)->result_array();
+
+
+		$data['year'] = $curr_year;
+		$data['view'] = 'admin/schedular/overseas_travel_claim';
 		$this->load->view('layout', $data);
 	}
 }

@@ -325,4 +325,87 @@ class Appraisal extends MY_Controller
 		$data['view'] = 'admin/appraisal/edit_bonus_rating';
 		$this->load->view('layout', $data);
 	}
+
+
+	public function asign_appraisar()
+	{
+		// Salary data here
+		$data['department'] = $this->db->get('jeol_apprasial_member_bonus')->result_array();
+		$data['view'] = 'admin/appraisal/asign_appraisar';
+		$this->load->view('layout', $data);
+	}
+	public function del_asign_appraisar($id = 0)
+	{
+		if ($id != 0) {
+			$this->db->where('id', $id);
+			$this->db->delete('jeol_apprasial_member_bonus');
+			redirect(base_url('admin/appraisal/asign_appraisar'));
+		}
+	}
+
+	public function add_asign_appraisar($id = 0)
+	{
+		if ($id != 0) $data['department'] = $this->db->get_where('jeol_apprasial_member_bonus', array('id =' => $id))->row_array();
+
+		if ($this->input->post('submit')) {
+			$data = array(
+				'app_employee' => $this->input->post('app_employee'),
+				'app_teamleader' => $this->input->post('app_teamleader'),
+				'app_member' => $this->input->post('app_member'),
+				'sheet_id' => $this->input->post('sheet_id'),
+				'last_increment' => $this->input->post('last_increment'),
+				'sess_year' => $this->input->post('sess_year'),
+				'app_final' => $this->input->post('app_final'),
+				'app_member_status' => 'Done',
+				'app_teamleader_status' => 'Pending',
+				'app_employee_status' => 'Pending',
+			);
+
+			if ($id == 0) {
+				// Insert
+				$this->db->insert('jeol_apprasial_member_bonus', $data);
+			} else {
+				// Update
+				$this->db->where('id', $id);
+				$this->db->update('jeol_apprasial_member_bonus', $data);
+			}
+
+			redirect(base_url('admin/appraisal/asign_appraisar'));
+		}
+		$data['id'] = $id;
+		$data['employee'] = $this->db->get('jeol_employee_tbl')->result_array();
+		$data['attribute'] = $this->db->get('jeol_attribute_tbl')->result_array();
+		$data['view'] = 'admin/appraisal/add_assign_appraiser';
+		$this->load->view('layout', $data);
+	}
+
+	public function consolidated_appraisal_sheet($curr_year = "2022")
+	{
+		// Query Here
+		$this->db->select('*');
+		$this->db->from('jeol_Appraisal_system_tbl');
+		$this->db->group_by(array('member_id', 'sess_year'));
+		$this->db->having('sess_year', $curr_year);
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			foreach ($query->result_array() as $row) {
+				$member_id[] = $row['member_id'];
+			}
+		} else {
+			echo "0 results";
+		}
+
+		$emp_id_unique = array_unique($member_id);
+
+		$this->db->select('*');
+		$this->db->where_in('id', $emp_id_unique);
+		$data['emp_detail'] = $this->db->get('jeol_employee_tbl')->result_array();
+
+
+		$data['year'] = $curr_year;
+		$data['view'] = 'admin/appraisal/consolidated_appraisal_sheet';
+		$this->load->view('layout', $data);
+	}
 }
