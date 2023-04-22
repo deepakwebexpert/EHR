@@ -330,7 +330,25 @@ class Users extends MY_Controller
 
 	public function schedular()
 	{
+		// Query Here
+		if ($this->session->userdata('group_id') == '6') {
+			$this->db->select('*');
+			$this->db->from('jeol_timesheet_tbl');
+			$this->db->order_by('id', 'desc');
 
+			$query = $this->db->get();
+			$data['sql_timesheet'] = $query->result_array();
+		} else {
+
+			$con = "find_in_set(" . $this->session->userdata('user_id') . ",report_to)";
+			$this->db->select('*');
+			$this->db->from('jeol_employee_tbl');
+			$this->db->where($con . " !=", 0);
+			$query = $this->db->get();
+			$data['query_get_name']  = $query->result_array();
+		}
+
+		$data['group_id'] = $this->session->userdata('group_id');
 		$data['schedule'] = $this->db->get('schedule')->result_array();
 		$data['view'] = 'admin/schedular/schedular';
 		$this->load->view('layout', $data);
@@ -339,9 +357,150 @@ class Users extends MY_Controller
 	public function local_travel_log_sheet($curr_year = "2023")
 	{
 
-		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.claim_date,travel.end_date,travel.status,travel.emp_status,travel.end_time_type,travel.ttl_duration,travel.start_time_type,travel.start_time,travel.end_time,travel.member_id  FROM `jeol_travelsheet_log_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and year(travel.claim_date) = '$curr_year' order by travel.claim_date desc";
+		if ($this->input->method() == "post") :
+			$select_sheet_id = $this->input->post('sub_admin_list');
+			$count = count($select_sheet_id);
+			if ($this->input->post('submitbuttonname') == 'Approved') {
+				$data = array(
+					'status' => "Approved"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
 
-		$data['emp_data'] = $this->db->query($sql)->result_array();
+					//$this->mdl_travel->update_travelsheet_log($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelexp_log_tbl', $data);
+
+					// $this->mdl_travel->update_travel_submit_log($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelsheet_log_tbl', $data);
+				}
+
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmit($this->input->post('sheet_id'), $this->input->post('emp_id'));
+				// /* her using helper function*/
+				// //echo $emp_id = $this->input->post('emp_id');
+
+				// /// $emp_id = array_unique($emp_id_new);
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] =  $emp_id_new[$h];
+				// 	}
+				// }
+				// $count_new_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $count_new_emp_id; $p++) {
+				// 	//dump($new_emp_id);
+				// 	$table = "jeol_travel_mails";
+				// 	$data = jeol_reporting_mail($new_emp_id[$p], $table);
+				// 	//dump($data);
+
+				// 	/* Email Templates */
+				// 	//echo "SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$this->input->post('emp_id')."'";
+				// 	$query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $new_emp_id[$p] . "'"));
+				// 	//$query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$this->input->post('emp_id')."'"));
+				// 	$query_tl = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata('user_id') . "'"));
+				// 	$this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// 	$this->email->to($query['emp_email']);
+				// 	//$this->email->to($data[0]);
+				// 	//$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// 	$this->email->cc($data[1]);
+				// 	$this->email->subject('Travel Log Sheet Approval Email');
+				// 	$sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 60));
+				// 	$mailtemp = $sql->row();
+				// 	$msg1 = $mailtemp->description;
+
+				// 	$query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelsheet_log_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// 	$messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// 	$messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// 	$messagebody2 = str_replace("Placeholder3", $query_sheet['start_date'], $messagebody1);
+				// 	$messagebody3 = str_replace("Placeholder4", $query_sheet['end_date'], $messagebody2);
+				// 	//$messagebody3=str_replace("Placeholder4",$query['emp_name'],$messagebody2);
+				// 	$this->email->message($messagebody3);
+
+
+				// 	$this->email->send();
+				// }
+			} else {
+				$data = array(
+					'status' => "Rejected"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
+
+					//$this->mdl_travel->update_travelsheet_log($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelexp_log_tbl', $data);
+
+					// $this->mdl_travel->update_travel_submit_log($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelsheet_log_tbl', $data);
+				}
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmit($this->input->post('sheet_id'), $this->input->post('emp_id'));
+				// $data['main_content'] = 'travel_management_subadmin_log';
+				// $this->load->view('includes/page_template', $data);
+
+				// //$emp_id = $this->input->post('emp_id');
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] =  $emp_id_new[$h];
+				// 	}
+				// }
+				// $count_new_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $count_new_emp_id; $p++) {
+
+				// 	$table = "jeol_travel_mails";
+				// 	$data = jeol_reporting_mail($new_emp_id[$p], $table);
+				// 	/* Email Templates */
+				// 	//$query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$this->input->post('emp_id')."'"));
+				// 	$query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $new_emp_id[$p] . "'"));
+				// 	$query_tl = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata('user_id') . "'"));
+				// 	$this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// 	//$this->email->to($query['emp_email']);
+				// 	$this->email->to($query['emp_email']);
+				// 	//$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// 	//$this->email->cc($data[1]); 
+				// 	$this->email->subject('Travel Log Sheet Rejection Email');
+				// 	$sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 70));
+				// 	$mailtemp = $sql->row();
+				// 	$msg1 = $mailtemp->description;
+
+				// 	$query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelsheet_log_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// 	$messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// 	$messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// 	$messagebody2 = str_replace("Placeholder3", $query_sheet['start_date'], $messagebody1);
+				// 	$messagebody3 = str_replace("Placeholder4", $query_sheet['end_date'], $messagebody2);
+				// 	//$messagebody3=str_replace("Placeholder4",$query['emp_name'],$messagebody2);
+				// 	$this->email->message($messagebody3);
+
+
+				// 	$this->email->send();
+				// }
+			}
+		endif;
+		if ($this->session->userdata('group_id') == '6') {
+			$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.claim_date,travel.end_date,travel.status,travel.emp_status,travel.end_time_type,travel.ttl_duration,travel.start_time_type,travel.start_time,travel.end_time,travel.member_id  FROM `jeol_travelsheet_log_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and year(travel.claim_date) = '$curr_year' order by travel.claim_date desc";
+
+			$data['emp_data'] = $this->db->query($sql)->result_array();
+		} else {
+			$con = "find_in_set(" . $this->session->userdata('user_id') . ",report_to)";
+			$table = 'jeol_employee_tbl';
+			$this->db->select('*');
+			$this->db->where($con . " !=", 0);
+			$data['sql_report_person'] = $this->db->get($table)->result_array();
+		}
 
 
 		$data['year'] = $curr_year;
@@ -352,9 +511,130 @@ class Users extends MY_Controller
 	public function local_claim($curr_year = "2023")
 	{
 
-		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.ttl_duration,travel.status,travel.member_id  FROM `jeol_travelclaimsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and year(travel.claim_date) = '$curr_year' order by  travel.ttl_duration asc";
 
-		$data['emp_data'] = $this->db->query($sql)->result_array();
+		if ($this->input->method() == "post") :
+			$select_sheet_id = $this->input->post('sub_admin_list');
+			$count = count($select_sheet_id);
+			if ($this->input->post('submitbuttonname') == 'Approved') {
+				$data = array(
+					'status' => "Approved"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
+
+					// $this->mdl_travel->update_travelsheet_claim($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelclainexp_tbl', $data);
+
+					// $this->mdl_travel->update_travel_submit_claim($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelclaimsheet_tbl', $data);
+				}
+
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmitclaim($this->input->post('sheet_id'), $this->input->post('emp_id'));
+
+				// /* Email Templates */
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] =  $emp_id_new[$h];
+				// 	}
+				// }
+				// $claim_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $claim_emp_id; $p++) {
+				// 	$table = "jeol_travel_mails";
+				// 	$data = jeol_reporting_mail($new_emp_id[$p], $table);
+				// 	//dump($data);
+				// 	$query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $new_emp_id[$p] . "'"));
+				// 	$query_tl = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata('user_id') . "'"));
+				// 	$this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// 	$this->email->to($query['emp_email']);
+				// 	//$this->email->to($data[0]);
+				// 	//$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// 	$this->email->cc($data[1]);
+				// 	$this->email->subject('Local Claim Approval Email');
+				// 	$sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 1848));
+				// 	$mailtemp = $sql->row();
+				// 	$msg1 = $mailtemp->description;
+
+				// 	$query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelclaimsheet_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// 	$messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// 	$messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// 	$messagebody2 = str_replace("Placeholder3", $query_sheet['ttl_duration'], $messagebody1);
+
+				// 	//$messagebody3=str_replace("Placeholder4",$query['emp_name'],$messagebody2);
+				// 	$this->email->message($messagebody2);
+
+
+				// 	$this->email->send();
+				// }
+			} else {
+				$data = array(
+					'status' => "Rejected"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
+
+					// $this->mdl_travel->update_travelsheet_claim($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelclainexp_tbl', $data);
+
+					// $this->mdl_travel->update_travel_submit_claim($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelclaimsheet_tbl', $data);
+				}
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmitclaim($this->input->post('sheet_id'), $this->input->post('emp_name'));
+				// $data['main_content'] = 'travel_management_subadminsearch_claim';
+				// $this->load->view('includes/page_template', $data);
+
+				// $query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $new_emp_id[$p] . "'"));
+				// $query_tl = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata('user_id') . "'"));
+				// $this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// $this->email->to($query['emp_email']);
+				// //$this->email->to($data[0]);
+				// //$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// //$this->email->cc($data[1]);
+				// $this->email->subject('Local Claim Sheet Rejection Email');
+				// $sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 20120));
+				// $mailtemp = $sql->row();
+				// $msg1 = $mailtemp->description;
+
+				// $query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelclaimsheet_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// $messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// $messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// $messagebody2 = str_replace("Placeholder3", $query_sheet['ttl_duration'], $messagebody1);
+				// //$messagebody3=str_replace("Placeholder4",$query['emp_name'],$messagebody2);
+				// $this->email->message($messagebody2);
+
+
+				// $this->email->send();
+
+			}
+		endif;
+		if ($this->session->userdata('group_id') == '6') {
+
+			$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.ttl_duration,travel.status,travel.member_id  FROM `jeol_travelclaimsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and year(travel.claim_date) = '$curr_year' order by  travel.ttl_duration asc";
+			$data['emp_data'] = $this->db->query($sql)->result_array();
+		} else {
+			$con = "find_in_set(" . $this->session->userdata('user_id') . ",report_to)";
+			$this->db->select('*');
+			$this->db->from('jeol_employee_tbl');
+			$this->db->where($con . " !=", 0);
+			$query = $this->db->get();
+			$data['sql_report_person'] = $query->result_array();
+		}
+
 
 
 		$data['year'] = $curr_year;
@@ -365,9 +645,137 @@ class Users extends MY_Controller
 	public function domestic_travel_claim($curr_year = "2023")
 	{
 
-		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.status,travel.emp_status,travel.end_time_type,travel.start_time_type,travel.start_time,travel.end_time,travel.member_id  FROM `jeol_travelsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and travel.sheet_type='0' and year(travel.claim_date) = '$curr_year' order by travel.status desc";
+		if ($this->input->method() == "post") :
+			$select_sheet_id = $this->input->post('sub_admin_list');
+			$count = count($select_sheet_id);
+			if ($this->input->post('submitbuttonname') == 'Approved') {
+				$data = array(
+					'status' => "Approved"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
 
-		$data['emp_data'] = $this->db->query($sql)->result_array();
+					// $this->mdl_travel->update_travelsheet($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelexp_tbl', $data);
+
+					// $this->mdl_travel->update_travel_submit($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelsheet_tbl', $data);
+				}
+
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmit($this->input->post('sheet_id'), $this->input->post('emp_id'));
+				// $this->db->where('sheet_id', $this->input->post('sheet_id'));
+				// $this->db->where('member_id', $this->input->post('emp_id'));
+				// $this->db->where('Status !=', 'NOT SUBMITTED');
+				// $query = $this->db->get('jeol_travelexp_tbl');
+				// $data['travels'] = $query->result_array();
+
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] = $emp_id_new[$h];
+				// 	}
+				// }
+				// $count_new_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $count_new_emp_id; $p++) {
+				// $query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $new_emp_id[$p] . "'"));
+				// $query_tl = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata('user_id') . "'"));
+				// $this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// $this->email->to($query['emp_email']);
+				//$this->email->to($data[0]);
+				//$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// $this->email->cc($data[1]);
+				// $this->email->subject('Domestic Travel Claim Sheet Approval Email');
+				// $sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 1));
+				// $mailtemp = $sql->row();
+				// $msg1 = $mailtemp->description;
+
+				// $query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelsheet_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// $messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// $messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// $messagebody2 = str_replace("Placeholder3", $query_sheet['start_date'], $messagebody1);
+				// $messagebody3 = str_replace("Placeholder4", $query_sheet['end_date'], $messagebody2);
+				// $this->email->message($messagebody3);
+
+
+				// $this->email->send();
+				// }
+			} else {
+				$data = array(
+					'status' => "Rejected"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
+					// $this->mdl_travel->update_travelsheet($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelexp_tbl', $data);
+
+
+					// $this->mdl_travel->update_travel_submit($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelsheet_tbl', $data);
+				}
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmit($this->input->post('sheet_id'), $this->input->post('emp_id'));
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] = $emp_id_new[$h];
+				// 	}
+				// }
+
+				// $count_new_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $count_new_emp_id; $p++) {
+				// $table = "jeol_travel_mails";
+				// $data = jeol_reporting_mail($new_emp_id[$p], $table); /* Email Templates */ //$query=mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$this->input->post(' emp_id')."'")); $query=mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$new_emp_id[$p]."'"));
+				// $query_tl = mysql_fetch_array(mysql_query(" SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata(' user_id') . "'"));
+				// $this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// //$this->email->to($query['emp_email']);
+				// $this->email->to($query['emp_email']);
+				// //$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// //$this->email->cc($data[1]);
+				// $this->email->subject('Domestic Travel Claim Sheet Rejection Email');
+				// $sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 2));
+				// $mailtemp = $sql->row();
+				// $msg1 = $mailtemp->description;
+
+				// $query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelsheet_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// $messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// $messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// $messagebody2 = str_replace("Placeholder3", $query_sheet['start_date'], $messagebody1);
+				// $messagebody3 = str_replace("Placeholder4", $query_sheet['end_date'], $messagebody2);
+				// //$messagebody3=str_replace("Placeholder4",$query['emp_name'],$messagebody2);
+				// $this->email->message($messagebody3);
+
+
+				// $this->email->send();
+				// }
+			}
+		endif;
+
+		if ($this->session->userdata('group_id') == '6') {
+			$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.status,travel.emp_status,travel.end_time_type,travel.start_time_type,travel.start_time,travel.end_time,travel.member_id  FROM `jeol_travelsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and travel.sheet_type='0' and year(travel.claim_date) = '$curr_year' order by travel.status desc";
+
+			$data['emp_data'] = $this->db->query($sql)->result_array();
+		} else {
+			$con = "find_in_set(" . $this->session->userdata('user_id') . ",report_to)";
+			$this->db->select('*');
+			$this->db->from('jeol_employee_tbl');
+			$this->db->where($con . " !=", 0);
+			$data['sql_report_person'] = $this->db->get()->result_array();
+		}
 
 
 		$data['year'] = $curr_year;
@@ -377,10 +785,137 @@ class Users extends MY_Controller
 
 	public function overseas_travel_claim($curr_year = "2023")
 	{
+		if ($this->input->method() == "post") :
+			$select_sheet_id = $this->input->post('sub_admin_list');
+			$count = count($select_sheet_id);
+			if ($this->input->post('submitbuttonname') == 'Approved') {
+				$data = array(
+					'status' => "Approved"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
 
-		$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.status,travel.member_id  FROM `jeol_travelsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and travel.sheet_type='1' and year(travel.claim_date) = '$curr_year' ";
+					// $this->mdl_travel->update_travelsheet($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelexp_tbl', $data);
 
-		$data['emp_data'] = $this->db->query($sql)->result_array();
+					// $this->mdl_travel->update_travel_submit($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelsheet_tbl', $data);
+				}
+
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmit($this->input->post('sheet_id'), $this->input->post('emp_id'));
+				// $this->db->where('sheet_id', $this->input->post('sheet_id'));
+				// $this->db->where('member_id', $this->input->post('emp_id'));
+				// $this->db->where('Status !=', 'NOT SUBMITTED');
+				// $query = $this->db->get('jeol_travelexp_tbl');
+				// $data['travels'] = $query->result_array();
+
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] = $emp_id_new[$h];
+				// 	}
+				// }
+				// $count_new_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $count_new_emp_id; $p++) {
+				// $query = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $new_emp_id[$p] . "'"));
+				// $query_tl = mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata('user_id') . "'"));
+				// $this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// $this->email->to($query['emp_email']);
+				//$this->email->to($data[0]);
+				//$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// $this->email->cc($data[1]);
+				// $this->email->subject('Domestic Travel Claim Sheet Approval Email');
+				// $sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 1));
+				// $mailtemp = $sql->row();
+				// $msg1 = $mailtemp->description;
+
+				// $query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelsheet_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// $messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// $messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// $messagebody2 = str_replace("Placeholder3", $query_sheet['start_date'], $messagebody1);
+				// $messagebody3 = str_replace("Placeholder4", $query_sheet['end_date'], $messagebody2);
+				// $this->email->message($messagebody3);
+
+
+				// $this->email->send();
+				// }
+			} else {
+				$data = array(
+					'status' => "Rejected"
+				);
+				$sheet_id_new = array();
+				$emp_id_new = array();
+				for ($i = 0; $i < $count; $i++) {
+					$new = explode('_', $select_sheet_id[$i]);
+					$sheet_id_new[] = $new[0];
+					$emp_id_new[] = $new[1];
+					// $this->mdl_travel->update_travelsheet($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelexp_tbl', $data);
+
+
+					// $this->mdl_travel->update_travel_submit($sheet_id_new[$i], $data);
+					$this->db->where('sheet_id', $sheet_id_new[$i]);
+					$this->db->update('jeol_travelsheet_tbl', $data);
+				}
+				// $data['travels'] = $this->mdl_travel->get_all_monthEmpsubmit($this->input->post('sheet_id'), $this->input->post('emp_id'));
+				// $emp_count = count($emp_id_new);
+				// $new_emp_id = array();
+				// for ($h = 0; $h < $emp_count; $h++) {
+				// 	if (!in_array($emp_id_new[$h], $new_emp_id)) {
+				// 		$new_emp_id[] = $emp_id_new[$h];
+				// 	}
+				// }
+
+				// $count_new_emp_id = count($new_emp_id);
+				// for ($p = 0; $p < $count_new_emp_id; $p++) {
+				// $table = "jeol_travel_mails";
+				// $data = jeol_reporting_mail($new_emp_id[$p], $table); /* Email Templates */ //$query=mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$this->input->post(' emp_id')."'")); $query=mysql_fetch_array(mysql_query("SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='".$new_emp_id[$p]."'"));
+				// $query_tl = mysql_fetch_array(mysql_query(" SELECT emp_name,emp_email FROM `jeol_employee_tbl` WHERE id='" . $this->session->userdata(' user_id') . "'"));
+				// $this->email->from(ADMIN_FROM, $query_tl['emp_name']);
+				// //$this->email->to($query['emp_email']);
+				// $this->email->to($query['emp_email']);
+				// //$list = array(ADMIN_CC, ADMIN_CC_TWO);
+				// //$this->email->cc($data[1]);
+				// $this->email->subject('Domestic Travel Claim Sheet Rejection Email');
+				// $sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 2));
+				// $mailtemp = $sql->row();
+				// $msg1 = $mailtemp->description;
+
+				// $query_sheet = mysql_fetch_array(mysql_query("SELECT * FROM `jeol_travelsheet_tbl` WHERE `sheet_id`='" . $this->input->post('sheet_id') . "'"));
+
+				// $messagebody = str_replace("Placeholder1", $query['emp_name'], $msg1);
+				// $messagebody1 = str_replace("Placeholder2", $query_tl['emp_name'], $messagebody);
+				// $messagebody2 = str_replace("Placeholder3", $query_sheet['start_date'], $messagebody1);
+				// $messagebody3 = str_replace("Placeholder4", $query_sheet['end_date'], $messagebody2);
+				// //$messagebody3=str_replace("Placeholder4",$query['emp_name'],$messagebody2);
+				// $this->email->message($messagebody3);
+
+
+				// $this->email->send();
+				// }
+			}
+		endif;
+
+		if ($this->session->userdata('group_id') == '6') {
+			$sql = "SELECT travel.sheet_id,emp.emp_name,travel.start_date,travel.end_date,travel.status,travel.member_id  FROM `jeol_travelsheet_tbl` as travel join jeol_employee_tbl as emp on travel.member_id=emp.id WHERE  travel.status!='Not Submitted' and travel.sheet_type='1' and year(travel.claim_date) = '$curr_year' ";
+
+			$data['emp_data'] = $this->db->query($sql)->result_array();
+		} else {
+			$con = "find_in_set(" . $this->session->userdata('user_id') . ",report_to)";
+			$this->db->select('*');
+			$this->db->from('jeol_employee_tbl');
+			$this->db->where($con . " !=", 0);
+			$data['sql_report_person'] = $this->db->get()->result_array();
+		}
 
 
 		$data['year'] = $curr_year;

@@ -55,7 +55,7 @@ class Auth extends CI_Controller {
 						redirect(base_url('auth/login'));
 						exit;
 			    	}
-					if($result['is_admin'] == 1){
+					// if($result['is_admin'] == 1){
 						$admin_data = array(
 							'admin_id' => $result['id'],
 							'name' => $result['firstname'],
@@ -70,23 +70,23 @@ class Auth extends CI_Controller {
 						$this->activity_model->add(4);
 
 						redirect(base_url('admin/dashboard'), 'refresh');
-					}
-					if ($result['is_admin'] != 1){
-						$user_data = array(
-							'user_id' => $result['id'],
-							'name' => $result['firstname'],
-							'is_user_login' => TRUE,
-							'group_id' => $result['group_id'],
-							'user_id' => $result['emp_id'],
-							'user_email' => $result['email']
-						);
-						$this->session->set_userdata($user_data);
+					// }
+					// if ($result['is_admin'] != 1){
+					// 	$user_data = array(
+					// 		'user_id' => $result['id'],
+					// 		'name' => $result['firstname'],
+					// 		'is_user_login' => TRUE,
+					// 		'group_id' => $result['group_id'],
+					// 		'user_id' => $result['emp_id'],
+					// 		'user_email' => $result['email']
+					// 	);
+					// 	$this->session->set_userdata($user_data);
 
-						// Add User Activity
-						$this->activity_model->add(4);
+					// 	// Add User Activity
+					// 	$this->activity_model->add(4);
 
-						redirect(base_url('user/profile'), 'refresh');
-					}
+					// 	redirect(base_url('user/profile'), 'refresh');
+					// }
 				}
 				else{
 					$data['msg'] = 'Invalid Email or Password!';
