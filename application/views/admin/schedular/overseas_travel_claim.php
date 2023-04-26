@@ -229,8 +229,8 @@
                         </tbody>
                         <div flot="right">
                             <center>
-                                <button type="submit" class="submit" name="submitbuttonname" value="Approved">Approve</button> &nbsp;
-                                <button type="submit" class="submit" name="submitbuttonname" value="Rejected">Reject</button> <br>
+                                <button type="submit" class="btn btn-primary waves-effect submit" name="submitbuttonname" value="Approved">Approve</button> &nbsp;
+                                <button type="submit" class="btn btn-primary waves-effect submit" name="submitbuttonname" value="Rejected">Reject</button> <br>
                             </center>
                         </div>
                         <?php echo form_close(); ?>

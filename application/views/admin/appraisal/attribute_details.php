@@ -1,3 +1,5 @@
+<!-- Bootstrap Select Css -->
+<link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 <!-- JQuery DataTable Css -->
 <link href="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 <!-- Exportable Table -->
@@ -12,7 +14,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                    <table id="new_table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>S#</th>
@@ -73,9 +75,17 @@
     </div>
 </div>
 
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+<!-- Autosize Plugin Js -->
+<script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
+<!-- Custom Js -->
+<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script>
 <script>
     //Delete Dialogue
     $('#confirm-delete').on('show.bs.modal', function(e) {
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
     });
+
+    $('#new_table').DataTable();
 </script>

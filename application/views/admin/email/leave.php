@@ -34,7 +34,8 @@
                                     <td><?= $row['emp_cc']; ?></td>
                                     <td><?= $row['emp_cc_two']; ?></td>
                                     <td class="c">
-                                        <a href="<?= (base_url('admin/email/add_leave/' . $row['id'])) ?>">Edit</a> | <a href="">Delete</a>
+                                        <a class="btn btn-primary" href="<?= (base_url('admin/email/add_leave/' . $row['id'])) ?>"><i class="material-icons">edit</i></a>
+                                        <a class="delete btn btn-sm btn-danger" href=""><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

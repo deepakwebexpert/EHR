@@ -1,4 +1,6 @@
-<!-- JQuery DataTable Css -->
+<!-- Bootstrap Select Css -->
+<link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
 <link href="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
 <!-- Exportable Table -->
 <div class="row clearfix">
@@ -12,7 +14,7 @@
             </div>
             <div class="body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                    <table id="new_table" class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>S#</th>
@@ -82,7 +84,7 @@
                                         $this->db->where('emp_id', $value['id']);
 
                                         $query = $this->db->get();
-                                        
+
 
                                         if ($query->num_rows() == 0) {
                                             echo "";
@@ -103,7 +105,7 @@
                                             //     $timesheet_data = mysql_query("SELECT * FROM `jeol_timesheet_tbl` WHERE emp_id='$serach_id'");
                                             // }
 
-                                            
+
                                             foreach ($timesheet_data as $key1 => $value1) { {
                                                     // while ($timesheet = mysql_fetch_array($timesheet_data)) {
                                                     $i++;

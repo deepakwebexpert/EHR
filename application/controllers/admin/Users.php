@@ -922,4 +922,50 @@ class Users extends MY_Controller
 		$data['view'] = 'admin/schedular/overseas_travel_claim';
 		$this->load->view('layout', $data);
 	}
+
+	public function my_domestic_travel_claim()
+	{
+		$emp_id = $this->session->userdata('user_id');
+		$this->db->select('travel.sheet_id, emp.emp_name, travel.start_date, travel.claim_date, travel.end_time_type, travel.start_time_type, travel.start_time, travel.end_time, travel.end_date, travel.status, travel.member_id');
+		$this->db->from('jeol_travelsheet_tbl AS travel');
+		$this->db->join('jeol_employee_tbl AS emp', 'travel.member_id=emp.id');
+		$this->db->where('travel.member_id', $emp_id);
+		$this->db->where('travel.sheet_type', '0');
+		$data['sql_mon_filter'] = $this->db->get()->result_array();
+
+
+		$data['view'] = 'admin/schedular/my_domestic_travel_claim';
+		$this->load->view('layout', $data);
+	}
+
+	public function add_my_domestic_travel_claim()
+	{
+		if ($this->input->post('submit')) {
+			// print_r($this->input->post('end_time')); die;
+			$data = array(
+				'start_date' => date("Y-m-d h:i", strtotime($this->input->post('start_date'))),
+				'end_date' => date("Y-m-d h:i", strtotime($this->input->post('end_date'))),
+				'member_id' => $this->session->userdata('user_id'),
+				'company_id' => 1,
+				'purpose' => $this->input->post('purpose'),
+				'services_report' => $this->input->post('services_report'),
+				'claim_date' => date("Y-m-d", strtotime($this->input->post('claim_date'))),
+				'ttl_duration' => $this->input->post('ttl_duration'),
+				'country' => $this->input->post('country'),
+				'status' => 'Not Submitted',
+				'start_time_type' => $this->input->post('start_time_type'),
+				'upload_file' => 1,
+				'end_time_type' => $this->input->post('end_time_type'),
+				'end_time' => $this->input->post('end_time'),
+				'start_time' => $this->input->post('start_time')
+			);
+			$this->db->insert('jeol_travelsheet_tbl', $data);
+			redirect(base_url('admin/users/my_domestic_travel_claim'));
+			
+			
+		}
+		$data['customers'] = $this->db->get('customer')->result_array();
+		$data['view'] = 'admin/schedular/add_my_domestic_travel_claim';
+		$this->load->view('layout', $data);
+	}
 }

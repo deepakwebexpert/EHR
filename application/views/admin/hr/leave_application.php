@@ -66,12 +66,12 @@
                             // while ($sql_leave_request_checkdata = mysql_fetch_array($sql_leave_request)) {
                             // print_r($sql_leave_request_checkdata);
                             // die;
-                            // print_r($report_person); 
+                            // print_r($sql_leave_request_checkdata); die;
                             foreach ($sql_leave_request_checkdata as $key => $value) {
-                                // echo $value['member_id'];
                                 @$i++;
 
 
+                                // print_r($report_person); die;
                                 if (in_array($value['member_id'], $report_person)) {
                                     @$j++;
                                     $id = $value['id'];
@@ -81,6 +81,7 @@
                                         $list = 'even';
                                     }
 
+                                    // echo $value['leave_status']."----";
 
                                     // $sql_employeename = get_employe_leave_desc($sql_leave_request_checkdata['member_id']);
                                     $sql_employeename = $this->db->get_where('jeol_employee_tbl', array('id' => $value['member_id']))->row_array();
@@ -107,27 +108,40 @@
                                         </td>
                                         <td class="c"><?= $value['leave_status'] ?></td>
                                         <td class="c">
-                                            <a onclick="popupCenter('http://www.jeolindia-ehr.com/display-leave.php?id=<?= $value['member_id'] ?>', 'myPop1',650,150);" href="javascript:void(0);">View</a>
+                                            <a class="btn btn-primary" onclick="popupCenter('http://www.jeolindia-ehr.com/display-leave.php?id=<?= $value['member_id'] ?>', 'myPop1',650,150);" href="javascript:void(0);">View</a>
                                             <?php if (($this->session->userdata('group_id') == '6') && ($this->session->userdata('user_id') == '51')) {
                                                 $reportid  = explode(',', $sql_employeename['report_to']);
                                                 $in_exist = in_array('51', $reportid);
                                                 if ($in_exist) {
                                             ?>
-                                                    <center><a href="<?php echo base_url() ?>employeeleave/approve_employeeleave/<?= $value['id'] ?>/<?= $value['member_id'] ?>" onclick="return confirm('Are you sure you want to Approve leave application?')">Approve</a> | <a onclick="return confirm('Are you sure you want to Reject leave application?')" href="<?php echo base_url() ?>employeeleave/reject_employeeleave/<?= $value['id'] ?>/<?= $value['member_id'] ?>">Reject</a></center>
+                                                    <center>
+                                                        <a class="btn btn-primary" href="<?php echo base_url() ?>employeeleave/approve_employeeleave/<?= $value['id'] ?>/<?= $value['member_id'] ?>" onclick="return confirm('Are you sure you want to Approve leave application?')">Approve</a>
+                                                        |
+                                                        <a class="btn btn-primary" onclick="return confirm('Are you sure you want to Reject leave application?')" href="<?php echo base_url() ?>employeeleave/reject_employeeleave/<?= $value['id'] ?>/<?= $value['member_id'] ?>">Reject</a>
+                                                    </center>
 
                                                 <?php }
                                             } else {
                                                 $tl_id = $this->session->userdata('user_id');
                                                 // $tl_email = get_team_leader_email($tl_id); // for team leader email id...
 
+                                                $tl_email = $this->db->select('emp_email')->where('id', $tl_id)->get('jeol_employee_tbl')->row();
+
                                                 $emp_id = $sql_employeename['id']; // emp email id...
                                                 $table = "jeol_leave_mails";
 
                                                 // $team_subordinate = get_reporting_person_access($emp_id, $tl_email->emp_email, $table);
+                                                $team_subordinate = $this->db->select('*')->where('emp_id', $emp_id)->where('emp_to', $tl_email->emp_email)->get($table)->row();
                                                 //dump($team_subordinate);
                                                 if ($team_subordinate) {
 
-                                                ?> <center><a href="<?php echo base_url() ?>employeeleave/approve_employeeleave/<?= $value['id'] ?>/<?= $value['member_id'] ?>" onclick="return confirm('Are you sure you want to Approve leave application?')">Approve</a> | <a onclick="return confirm('Are you sure you want to Reject leave application?')" href="<?php echo base_url() ?>employeeleave/reject_employeeleave/<?= $value['id'] ?>/<?= $value['member_id'] ?>">Reject</a></center>
+                                                ?>
+
+                                                    <a class="btn btn-primary" href="<?php echo base_url() ?>admin/hr/approve_leave/<?= $value['id'] ?>/<?= $value['member_id'] ?>" onclick="return confirm('Are you sure you want to Approve leave application?')">Approve
+                                                    </a>
+                                                    <a class="btn btn-primary" onclick="return confirm('Are you sure you want to Reject leave application?')" href="<?php echo base_url('') ?>admin/hr/reject_leave/<?= $value['id'] ?>/<?= $value['member_id'] ?>">Reject
+                                                    </a>
+
                                             <?php }
                                             } ?>
                                         </td>
