@@ -5,6 +5,7 @@ class Dashboard extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model('admin/dashboard_model', 'dashboard_model');
+		date_default_timezone_set('Asia/Kolkata');
 	}
 
 	public function index()
@@ -15,6 +16,33 @@ class Dashboard extends MY_Controller
 		$data['active_users'] = $this->dashboard_model->get_active_users();
 		$data['deactive_users'] = $this->dashboard_model->get_deactive_users();
 		$data['title'] = 'Dashboard';
+		$data['group_id'] =  $this->session->all_userdata()['group_id'];
+		$user_id = $this->session->all_userdata()['user_id'];
+		$data['calendar'] = $this->db->get_where('jeol_timesheet_tbl', array("emp_id" => $user_id))->result();
+
+		$con = "find_in_set(" . $this->session->userdata('user_id') . ",report_to)";
+		$this->db->select('*');
+		$this->db->from('jeol_employee_tbl');
+		$this->db->where($con . " !=", 0);
+		$query = $this->db->get();
+		$ids = $query->result_array();
+		foreach ($ids as $key => $value) $tl_ids[] = $value['id'];
+
+
+		$tl_ids[] = $this->session->userdata('user_id');
+
+		// print_r($tl_ids); die;
+
+		// $data['tl_calendar'] = $this->db->get('jeol_timesheet_tbl')->result();
+		$this->db->from('jeol_timesheet_tbl');
+		$this->db->where_in('emp_id', $tl_ids);
+		$data['tl_calendar'] = $this->db->get()->result();
+		
+		// print_r($data['tl_calendar']); die;	
+
+
+		// $data['module'] = $this->db->get_where('schedule', array("par_id" => 0, "status" => 1))->result_array();
+		$data['customer_data'] = $this->db->get('customer')->result_array();
 		$data['view'] = 'admin/dashboard/index';
 		$this->load->view('layout', $data);
 	}
@@ -44,7 +72,7 @@ class Dashboard extends MY_Controller
 		// Update record here
 		$checkRecord = $this->db->get_where('tbl_perrmission', array("group_id" => $group_id, "menu_id" => $menu_id, "sub_menu_id" => $sub_menu_id))->num_rows();
 
-		
+
 		if ($checkRecord == 0) {
 			// Insert
 			$data = array(

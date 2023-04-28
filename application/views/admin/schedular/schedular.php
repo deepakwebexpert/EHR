@@ -82,7 +82,6 @@
                                         $this->db->select('*');
                                         $this->db->from('jeol_timesheet_tbl');
                                         $this->db->where('emp_id', $value['id']);
-
                                         $query = $this->db->get();
 
 

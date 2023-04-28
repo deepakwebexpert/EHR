@@ -335,7 +335,6 @@ class Users extends MY_Controller
 			$this->db->select('*');
 			$this->db->from('jeol_timesheet_tbl');
 			$this->db->order_by('id', 'desc');
-
 			$query = $this->db->get();
 			$data['sql_timesheet'] = $query->result_array();
 		} else {
@@ -923,6 +922,121 @@ class Users extends MY_Controller
 		$this->load->view('layout', $data);
 	}
 
+	public function my_overseas_travel_claim()
+	{
+		$emp_id = $this->session->userdata('user_id');
+		$this->db->select('travel.sheet_id, emp.emp_name, travel.start_date, travel.claim_date, travel.end_time_type, travel.start_time_type, travel.start_time, travel.end_time, travel.end_date, travel.status, travel.member_id');
+		$this->db->from('jeol_travelsheet_tbl AS travel');
+		$this->db->join('jeol_employee_tbl AS emp', 'travel.member_id=emp.id');
+		$this->db->where('travel.member_id', $emp_id);
+		$this->db->where('travel.sheet_type', '1');
+		$data['sql_mon_filter'] = $this->db->get()->result_array();
+
+
+		$data['view'] = 'admin/schedular/my_overseas_travel_claim';
+		$this->load->view('layout', $data);
+	}
+
+	public function add_my_overseas_travel_claim()
+	{
+		if ($this->input->post('submit')) {
+
+			// Upload Document Here
+			$path = 'uploads';
+			$config['upload_path'] = $path;
+			$config['allowed_types'] = 'xlsx|xls|csv|pdf|png|jpg';
+			$config['remove_spaces'] = TRUE;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('upload_file')) {
+				$error = array('error' => $this->upload->display_errors());
+			} else {
+				$additional_documents = array('upload_data' => $this->upload->data());
+			}
+
+			$data = array(
+				'start_date' => date("Y-m-d h:i", strtotime($this->input->post('start_date'))),
+				'end_date' => date("Y-m-d h:i", strtotime($this->input->post('end_date'))),
+				'member_id' => $this->session->userdata('user_id'),
+				'company_id' => 1,
+				'purpose' => $this->input->post('purpose'),
+				'services_report' => $this->input->post('services_report'),
+				'claim_date' => date("Y-m-d", strtotime($this->input->post('claim_date'))),
+				'ttl_duration' => $this->input->post('ttl_duration'),
+				'country' => $this->input->post('country'),
+				'status' => 'Not Submitted',
+				'start_time_type' => $this->input->post('start_time_type'),
+				'upload_file' => $additional_documents['upload_data']['file_name'],
+				'end_time_type' => $this->input->post('end_time_type'),
+				'end_time' => $this->input->post('end_time'),
+				'start_time' => $this->input->post('start_time'),
+				'sheet_type' => 1
+			);
+			$this->db->insert('jeol_travelsheet_tbl', $data);
+			$insert_id = $this->db->insert_id();
+
+			// Save Additional Data
+			$Description_array = $this->input->post('Description');
+			for ($i = 0; $i < sizeof($Description_array); $i++) {
+
+				$travel_date_final = $this->input->post('travel_date')[$i];
+				$Amount_final = $this->input->post('Amount')[$i];
+				$Description_final = $this->input->post('Description')[$i];
+				$acc_code_final = $this->input->post('acc_code')[$i];
+				$paymnet_by_final = $this->input->post('paymnet_by')[$i];
+				$reference = $this->input->post('reference')[$i];
+				$Company_final = $this->input->post('Company')[$i];
+				$Model_no_final = $this->input->post('model_no')[$i];
+
+
+				if (!empty($Description_final)) :
+					// Uploasd Image here
+					$_FILES['docs[]']['name']     = $_FILES['docs']['name'][$i];
+					$_FILES['docs[]']['type']     = $_FILES['docs']['type'][$i];
+					$_FILES['docs[]']['tmp_name'] = $_FILES['docs']['tmp_name'][$i];
+					$_FILES['docs[]']['error']     = $_FILES['docs']['error'][$i];
+					$_FILES['docs[]']['size']     = $_FILES['docs']['size'][$i];
+
+
+					$path = 'uploads';
+					$config['upload_path'] = $path;
+					$config['allowed_types'] = 'xlsx|xls|csv|pdf|png|jpg';
+					$config['remove_spaces'] = TRUE;
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+					if (!$this->upload->do_upload('docs[]')) {
+						$error = array('error' => $this->upload->display_errors());
+					} else {
+						$doc_data = $this->upload->data();
+					}
+
+					$data = array(
+						'travel_date' => date("Y-m-d", strtotime($travel_date_final)),
+						'Amount' => $Amount_final,
+						'Description' => $Description_final,
+						'acc_code' => $acc_code_final,
+						'paymnet_by' => $paymnet_by_final,
+						'reference' => $reference,
+						'sheet_id' => $insert_id,
+						'member_id' => $this->session->userdata('user_id'),
+						'Company' => $Company_final,
+						'model_no' => $Model_no_final,
+						'reg_date' => date("Y-m-d H:i:s"),
+						'ref_doc' => $doc_data['file_name'],
+						'Status' => 'Not Submitted',
+						'sheet_type' => 1
+					);
+					$this->db->insert('jeol_travelexp_tbl', $data);
+				endif;
+			}
+			redirect(base_url('admin/users/my_domestic_travel_claim'));
+		}
+		$data['customers'] = $this->db->get('customer')->result_array();
+		$data['view'] = 'admin/schedular/add_my_overseas_travel_claim';
+		$this->load->view('layout', $data);
+	}
+
+
 	public function my_domestic_travel_claim()
 	{
 		$emp_id = $this->session->userdata('user_id');
@@ -938,10 +1052,39 @@ class Users extends MY_Controller
 		$this->load->view('layout', $data);
 	}
 
+
+	public function view_domestic_travel_claim($id)
+	{
+
+		// $data['customers'] = $this->db->get('customer')->result_array();
+
+		$data['view_data'] = $this->db->get_where('jeol_travelsheet_tbl', array('sheet_id =' => $id))->row_array();
+
+		$data['view_amount_data'] = $this->db->get_where('jeol_travelexp_tbl', array('sheet_id =' => $data['view_data']['sheet_id']))->result_array();
+
+		$data['customers'] = $this->db->get('customer')->result_array();
+
+		$data['view'] = 'admin/schedular/view_my_domestic_travel_claim';
+		$this->load->view('layout', $data);
+	}
+
 	public function add_my_domestic_travel_claim()
 	{
 		if ($this->input->post('submit')) {
-			// print_r($this->input->post('end_time')); die;
+
+			// Upload Document Here
+			$path = 'uploads';
+			$config['upload_path'] = $path;
+			$config['allowed_types'] = 'xlsx|xls|csv|pdf|png|jpg';
+			$config['remove_spaces'] = TRUE;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('upload_file')) {
+				$error = array('error' => $this->upload->display_errors());
+			} else {
+				$additional_documents = array('upload_data' => $this->upload->data());
+			}
+
 			$data = array(
 				'start_date' => date("Y-m-d h:i", strtotime($this->input->post('start_date'))),
 				'end_date' => date("Y-m-d h:i", strtotime($this->input->post('end_date'))),
@@ -954,18 +1097,261 @@ class Users extends MY_Controller
 				'country' => $this->input->post('country'),
 				'status' => 'Not Submitted',
 				'start_time_type' => $this->input->post('start_time_type'),
-				'upload_file' => 1,
+				'upload_file' => $additional_documents['upload_data']['file_name'],
 				'end_time_type' => $this->input->post('end_time_type'),
 				'end_time' => $this->input->post('end_time'),
 				'start_time' => $this->input->post('start_time')
 			);
 			$this->db->insert('jeol_travelsheet_tbl', $data);
+			$insert_id = $this->db->insert_id();
+
+			// Save Additional Data
+			$Description_array = $this->input->post('Description');
+			for ($i = 0; $i < sizeof($Description_array); $i++) {
+
+				$travel_date_final = $this->input->post('travel_date')[$i];
+				$Amount_final = $this->input->post('Amount')[$i];
+				$Description_final = $this->input->post('Description')[$i];
+				$acc_code_final = $this->input->post('acc_code')[$i];
+				$paymnet_by_final = $this->input->post('paymnet_by')[$i];
+				$reference = $this->input->post('reference')[$i];
+				$Company_final = $this->input->post('Company')[$i];
+				$Model_no_final = $this->input->post('model_no')[$i];
+
+
+				if (!empty($Description_final)) :
+					// Uploasd Image here
+					$_FILES['docs[]']['name']     = $_FILES['docs']['name'][$i];
+					$_FILES['docs[]']['type']     = $_FILES['docs']['type'][$i];
+					$_FILES['docs[]']['tmp_name'] = $_FILES['docs']['tmp_name'][$i];
+					$_FILES['docs[]']['error']     = $_FILES['docs']['error'][$i];
+					$_FILES['docs[]']['size']     = $_FILES['docs']['size'][$i];
+
+
+					$path = 'uploads';
+					$config['upload_path'] = $path;
+					$config['allowed_types'] = 'xlsx|xls|csv|pdf|png|jpg';
+					$config['remove_spaces'] = TRUE;
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+					if (!$this->upload->do_upload('docs[]')) {
+						$error = array('error' => $this->upload->display_errors());
+					} else {
+						$doc_data = $this->upload->data();
+					}
+
+					$data = array(
+						'travel_date' => date("Y-m-d", strtotime($travel_date_final)),
+						'Amount' => $Amount_final,
+						'Description' => $Description_final,
+						'acc_code' => $acc_code_final,
+						'paymnet_by' => $paymnet_by_final,
+						'reference' => $reference,
+						'sheet_id' => $insert_id,
+						'member_id' => $this->session->userdata('user_id'),
+						'Company' => $Company_final,
+						'model_no' => $Model_no_final,
+						'reg_date' => date("Y-m-d H:i:s"),
+						'ref_doc' => $doc_data['file_name'],
+						'Status' => 'Not Submitted'
+					);
+					$this->db->insert('jeol_travelexp_tbl', $data);
+				endif;
+			}
 			redirect(base_url('admin/users/my_domestic_travel_claim'));
-			
-			
 		}
 		$data['customers'] = $this->db->get('customer')->result_array();
 		$data['view'] = 'admin/schedular/add_my_domestic_travel_claim';
+		$this->load->view('layout', $data);
+	}
+
+	public function my_schedule()
+	{
+		// $data['schedule'] = $this->db->get('jeol_timesheet_tbl')->result_array();
+		$user_id = $this->session->userdata['user_id'];
+		$data['schedule'] = $this->db->get_where('jeol_timesheet_tbl', array('emp_id =' => $user_id))->result_array();
+
+		$data['view'] = 'admin/schedule/index';
+		$this->load->view('layout', $data);
+	}
+	public function del_schedule($id = 0)
+	{
+		if ($id != 0) {
+			$this->db->where('id', $id);
+			$this->db->delete('schedule');
+			redirect(base_url('admin/users/my_schedule'));
+		}
+	}
+
+	public function add_schedule($id = 0)
+	{
+		if ($id != 0) {
+			$data['schedule'] = $this->db->get_where('jeol_timesheet_tbl', array('id =' => $id))->row_array();
+			$data['department'] = $this->db->get_where('customer_department', array('id =' => $data['schedule']['department']))->result_array();
+			$data['project'] = $this->db->get_where('reports', array('id =' => $data['schedule']['project']))->result_array();
+		}
+		if ($this->input->post('submit')) {
+
+			// Upload Document Here
+			$path = 'uploads';
+			$config['upload_path'] = $path;
+			$config['allowed_types'] = 'xlsx|xls|csv|pdf|png|jpg';
+			$config['remove_spaces'] = TRUE;
+			$this->load->library('upload', $config);
+			$this->upload->initialize($config);
+			if (!$this->upload->do_upload('document')) {
+				$error = array('error' => $this->upload->display_errors());
+			} else {
+				$additional_documents = array('upload_data' => $this->upload->data());
+			}
+
+
+			// 
+			$emp_id = $this->session->userdata('user_id');
+			$start_final = date('Y-m-d', strtotime($this->input->post('s_date')));
+			$final_date = date('Y-m-d', strtotime($this->input->post('final_date')));
+			$ins_date = date('Y-m-d', strtotime($this->input->post('ins_start')));
+			$insend_date = date('Y-m-d', strtotime($this->input->post('ins_end')));
+			$data = array(
+				'date' => $start_final,
+				'company' => $this->input->post('company'),
+				'description' => $this->input->post('description'),
+				'company_services' => $this->input->post('company_services'),
+				'meeting_time' => $this->input->post('meeting_time'),
+				'start_date' => $this->input->post('start_date'),
+				'end_date' => $this->input->post('end_date'),
+				'final_date' => $final_date,
+				'ins_start' => $ins_date,
+				'ins_end' => $insend_date,
+				'project_code' => $this->input->post('project_code'),
+				'visit' => $this->input->post('visit'),
+				'start_date_ampm' => $this->input->post('start_date_ampm'),
+				'end_date_ampm' => $this->input->post('end_date_ampm'),
+				'Feedback' => $this->input->post('Feedback'),
+				'add_date' => date('Y-m-d'),
+				'upload' => $additional_documents['upload_data']['file_name'],
+				'status' => 'Not Submitted',
+				'emp_id' => $emp_id
+
+			);
+
+
+			if ($id == 0) {
+				// Insert
+				$this->db->insert('jeol_timesheet_tbl', $data);
+			} else {
+				// Update
+				$this->db->where('id', $id);
+				$this->db->update('jeol_timesheet_tbl', $data);
+			}
+
+			redirect(base_url('admin/users/my_schedule'));
+		}
+		$data['customer_data'] = $this->db->get('customer')->result_array();
+		$data['id'] = $id;
+		$data['view'] = 'admin/schedule/add_schedule';
+		$this->load->view('layout', $data);
+	}
+
+	public function ajax_data()
+	{
+		$cust_id =  $this->input->get('cust_id');
+		$cust_dept =  $this->input->get('cust_dept');
+		$company_id =  $this->input->get('company_id');
+		if (!empty($cust_dept)) {
+
+			$departments = $this->db->get_where('reports', array('cust_depart =' => $cust_dept, 'cust_id' => $company_id))->result_array();
+
+			if (!empty($departments)) {
+				foreach ($departments as $key => $value) {
+					$result[] = array(
+						'id' => $value['id'],
+						'name' => $value['instrument']
+					);
+				}
+			}
+			echo json_encode($result);
+		} else {
+
+			$departments = $this->db->get_where('customer_department', array('cust_id =' => $cust_id))->result_array();
+			if (!empty($departments)) {
+				foreach ($departments as $key => $value) {
+					$result[] = array(
+						'id' => $value['id'],
+						'name' => $value['cust_depart']
+					);
+				}
+			}
+			echo json_encode($result);
+		}
+	}
+
+	public function upload_docs($customer_id)
+	{
+
+		if ($customer_id != 0) {
+			// Upload Files Here
+			if ($this->input->post('submit')) {
+
+				// Upload Document Here
+				// print_r($_FILES); die;
+
+				$count = count($_FILES['docs']['name']);
+				// // echo $count; die;
+				for ($i = 0; $i < $count; $i++) {
+
+					$_FILES['docs[]']['name']     = $_FILES['docs']['name'][$i];
+					$_FILES['docs[]']['type']     = $_FILES['docs']['type'][$i];
+					$_FILES['docs[]']['tmp_name'] = $_FILES['docs']['tmp_name'][$i];
+					$_FILES['docs[]']['error']     = $_FILES['docs']['error'][$i];
+					$_FILES['docs[]']['size']     = $_FILES['docs']['size'][$i];
+
+
+					$path = 'uploads';
+					$config['upload_path'] = $path;
+					$config['allowed_types'] = 'xlsx|xls|csv|pdf|png|jpg';
+					$config['remove_spaces'] = TRUE;
+					$this->load->library('upload', $config);
+					$this->upload->initialize($config);
+					if (!$this->upload->do_upload('docs[]')) {
+						$error = array('error' => $this->upload->display_errors());
+					} else {
+						$doc_data = $this->upload->data();
+					}
+					// print_r($doc_data);
+					$data = array(
+						'customer_id' => $customer_id,
+						'file_name' => $doc_data['file_name']
+					);
+					$this->db->insert('customer_docs', $data);
+				}
+
+				// Mail Here to all admins
+				$adminsMails = $this->db->get_where('ci_users', array('group_id =' => 6))->result_array();
+
+				foreach ($adminsMails as $key => $value) {
+
+					$to = $this->db->get_where('jeol_employee_tbl', array('emp_code =' => $value['email']))->row()->emp_email;
+					// $to = "";
+
+					$this->email->to($to);
+					// $this->email->cc($data[1]);
+					$this->email->subject('New Order Received');
+					// $sql = $this->db->get_where('jeol_template_tbl', array('add_date' => 205));
+					// $mailtemp = $sql->row();
+					// $msg1 = $mailtemp->description;
+
+					// $messagebody = str_replace("{employee_name}", $sql_reporting_person['emp_name'], $msg1);
+					$messagebody = "PO Has Been Uploaded By " . $value['firstname'] . '  ' . $value['lastname'];
+					$this->email->message($messagebody);
+					$this->email->send();
+				}
+				redirect(base_url('admin/customer/emp_customers'));
+			}
+		}
+
+		$data['id'] = $customer_id;
+		$data['view'] = 'admin/schedule/add_media';
 		$this->load->view('layout', $data);
 	}
 }

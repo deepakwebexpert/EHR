@@ -23,16 +23,15 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    My Domestic Travel Claim
-
+                    My Overseas Travel Claim
                 </h2>
-                <a href="<?= base_url('admin/users/add_my_domestic_travel_claim'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Create New</a>
+                <a href="<?= base_url('admin/users/add_my_overseas_travel_claim'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Create New</a>
             </div>
 
             <div class="body">
 
                 <div class="table-responsive">
-                    <?php echo form_open(base_url('admin/users/domestic_travel_claim'), 'class="form-horizontal"');  ?>
+                    <?php echo form_open(base_url('admin/users/overseas_travel_claim'), 'class="form-horizontal"');  ?>
                     <table id="na_datatable1" class="table table-bordered table-striped table-hover dataTable js-exportable">
                         <thead>
                             <tr>
@@ -42,7 +41,6 @@
                                 <th>Total Amount(INR)</th>
                                 <th>Status</th>
                                 <th>View</th>
-                                <th>Month</th>
                             </tr>
                         </thead>
 
@@ -58,7 +56,7 @@
                                 // $sql_main_table = mysql_query("SELECT SUM(Amount) as total_amount,status FROM `jeol_travelexp_tbl` WHERE sheet_id='$sql_mon_data[sheet_id]'  and sheet_type='0' and acc_code!='Paid By Company'");
                                 // $sql_main_result = mysql_fetch_array($sql_main_table);
 
-                                $sql_main_result = my_domestic_travel_claim($sql_mon_data['sheet_id'], 0, 'Paid By Company');
+                                $sql_main_result = my_domestic_travel_claim($sql_mon_data['sheet_id'], 1, 'Paid By Company');
 
                                 $i++;
                                 if ($i % 2 == 0) {

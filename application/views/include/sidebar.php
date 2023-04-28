@@ -80,7 +80,7 @@
 					</li>
 				<?php } else { ?>
 					<li id="dashboard">
-						<a href="<?= base_url('user/dashboard'); ?>">
+						<a href="<?= base_url('admin/dashboard'); ?>">
 							<i class="material-icons">home</i>
 							<span><?= $value['name'] ?></span>
 						</a>

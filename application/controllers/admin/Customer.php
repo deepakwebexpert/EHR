@@ -11,20 +11,39 @@ class Customer extends MY_Controller
 	//-----------------------------------------------------------------------
 	public function index()
 	{
-		// Employee data here
-		$data['department'] = $this->db->get('customer')->result_array();
+
+		$status = $_GET['status'];
+		if (isset($_GET['status']) and   ($status == 0 || $status == 1))
+			$data['department'] = $this->db->get_where('customer', array('status =' => $status))->result_array();
+
+		else  $data['department'] = $this->db->get('customer')->result_array();
+
+		// print_r($data['department']); die;
+
 		$data['view'] = 'admin/customer/customer';
 		$this->load->view('layout', $data);
 	}
 
 	public function add_customer($id = 0)
 	{
+
+		$group_id = $this->session->all_userdata()['group_id'];
+		if ($group_id != 6) {
+			$status = 0;
+			// Pass Customers
+			$data['all_customers'] = $this->db->get_where('customer', array('created_by =' => $this->session->all_userdata()['user_id'], 'status' => 0))->result_array();
+		} else {
+			$status = 1;
+			$data['all_customers'] = $this->db->get('customer')->result_array();
+		}
 		if ($id != 0) $data['customer'] = $this->db->get_where('customer', array('id =' => $id))->row_array();
 		if ($this->input->post('submit')) {
 			$data = array(
 				'cust_name' => $this->input->post('cust_name'),
 				'cust_location' => $this->input->post('cust_location'),
-				'cust_address' => $this->input->post('cust_address')
+				'cust_address' => $this->input->post('cust_address'),
+				'created_by' => $this->session->all_userdata()['user_id'],
+				'status' => $status
 			);
 
 			if ($id == 0) {
@@ -36,13 +55,24 @@ class Customer extends MY_Controller
 				$this->db->update('customer', array("cust_id" => "JIC00" . $insert_id));
 			} else {
 				// Update
+
+				$update_data = array(
+					'cust_name' => $this->input->post('cust_name'),
+					'cust_location' => $this->input->post('cust_location'),
+					'cust_address' => $this->input->post('cust_address'),
+					'status' => $this->input->post('status')
+				);
+
 				$this->db->where('id', $id);
-				$this->db->update('customer', $data);
+				$this->db->update('customer', $update_data);
 			}
 
-			redirect(base_url('admin/customer'));
+			if ($group_id == 6) redirect(base_url('admin/customer'));
+			else redirect(base_url('admin/customer/emp_customers'));
 		}
+
 		$data['id'] = $id;
+		$data['group_id'] = $group_id;
 		$data['view'] = 'admin/customer/add_customer';
 		$this->load->view('layout', $data);
 	}
@@ -214,6 +244,36 @@ class Customer extends MY_Controller
 				}
 			}
 			echo json_encode($result);
+		}
+	}
+
+	public function emp_customers()
+	{
+		// Employee data here
+		// $data['department'] = $this->db->get('customer')->result_array();
+		$created_by = $this->session->all_userdata()['user_id'];
+		// print_r($this->session->all_userdata()); die;
+		$data['department'] = $this->db->get_where('customer', array('created_by =' => $created_by))->result_array();
+		$data['view'] = 'admin/customer/emp_customer';
+		$this->load->view('layout', $data);
+	}
+
+	public function view_po($id = 0)
+	{
+
+		$data['images'] = $this->db->get_where('customer_docs', array('customer_id =' => $id))->result_array();
+		$data['view'] = 'admin/customer/po_customer';
+		$this->load->view('layout', $data);
+	}
+
+	public function delete_po($id = 0)
+	{
+
+		if ($id != 0) {
+			$customer_id  = $this->db->get_where('customer_docs', array('id =' => $id))->row()->customer_id;
+			$this->db->where('id', $id);
+			$this->db->delete('customer_docs');
+			redirect(base_url('admin/customer/view_po/') . $customer_id);
 		}
 	}
 }

@@ -1,7 +1,5 @@
 <!-- JQuery DataTable Css -->
 <link href="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
-<link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
-
 <!-- Exportable Table -->
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -13,14 +11,6 @@
                 <a href="<?= base_url('admin/customer/add_customer'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Add New</a>
             </div>
             <div class="body">
-
-                <select class="" onChange="window.location='<?= base_url('admin/customer?status=') ?>'+this.value">
-                    <option value=''>--Select Status--</option>
-                    <option value='1' <?php if ($_GET['status'] == '1') { ?> selected <?php } ?>>Approved</option>
-                    <option value='0' <?php if ($_GET['status'] == '0') { ?> selected <?php } ?>>Not Approved</option>
-
-                </select>
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                         <thead>
@@ -47,12 +37,17 @@
                                     <td><?= $row['cust_address']; ?></td>
                                     <td><?= ($row['status'] == 0 ? 'Not Approved' : 'Approved') ?></td>
                                     <td><a target="_blank" href="<?= base_url("admin/customer/view_po/") . $row['id'] ?>">View</a></td>
+                                    
                                     <td class="c">
                                         <a title="Edit" class="update btn btn-sm btn-primary m-r-10" href="<?= (base_url('admin/customer/add_customer/' . $row['id'])) ?>">
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href=<?= base_url('admin/customer/customer_del/' . $row['id']) ?> data-toggle="modal" data-target="#confirm-delete">
+                                        <a title="Delete" class="delete btn btn-sm btn-danger m-r-10" data-href=<?= base_url('admin/customer/customer_del/' . $row['id']) ?> data-toggle="modal" data-target="#confirm-delete">
                                             <i class="material-icons">delete</i>
+                                        </a>
+
+                                        <a title="Upload Docs" href="<?= base_url('/admin/users/upload_docs/' . $row['id']) ?>" class="delete btn btn-sm btn-danger">
+                                            <i class="material-icons">upload</i>
                                         </a>
                                         <!-- <a href="<?= (base_url('admin/customer/add_customer/' . $row['id'])) ?>">Edit</a> | <a href="">Delete</a> -->
                                     </td>
@@ -96,6 +91,14 @@
 <!-- #END# Exportable Table -->
 
 
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<!-- <script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+
+<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script> -->

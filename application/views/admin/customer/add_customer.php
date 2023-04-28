@@ -7,7 +7,6 @@
                 <h2>
                     Add Customer
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
             </div>
             <div class="body">
 
@@ -27,6 +26,25 @@
 
 
                     <?php echo form_open(base_url('admin/customer/add_customer/' . $id), 'class="form-horizontal"');  ?>
+
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="username">View All Customers</label>
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control show-tick live_search department_change" data-live-search="true" name="app_employee">
+                                        <option>View Customers</option>
+                                        <?php foreach ($all_customers as $group) : ?>
+                                            <option><?= $group['cust_name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
                     <div class="row clearfix">
@@ -69,6 +87,27 @@
                         </div>
                     </div>
 
+
+                    <?php
+
+                    if ($group_id == 6) :
+                    ?>
+                        <div class="row clearfix">
+                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                <label for="username">Status</label>
+                            </div>
+                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select class="form-control show-tick live_search department_change" data-live-search="true" name="status">
+                                            <option value="1" <?= ($customer['status'] == 1 ? 'selected' : '') ?>>Active</option>
+                                            <option value="0" <?= ($customer['status'] == 0 ? 'selected' : '') ?>>In Active</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
 
 
                     <div class="row clearfix">
