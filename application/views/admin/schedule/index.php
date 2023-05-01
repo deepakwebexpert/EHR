@@ -36,12 +36,21 @@
                                     <td><?= $row['date']; ?></td>
                                     <td><?= $this->db->get_where('customer', array('id =' => $row['company']))->row()->cust_name ?></td>
                                     <td><?= $row['meeting_time']; ?></td>
-                                    
+
                                     <td><?= $row['start_date'] . '  ' . $row['start_date_ampm']; ?></td>
                                     <td><?= $row['end_date'] . '  ' . $row['end_date_appm']; ?></td>
                                     <td><?= $row['description']; ?></td>
                                     <td><?= $row['company_services']; ?></td>
-                                    <td><a target="_blank" href="<?= base_url('uploads/' . $row['upload']); ?>">Download</a></td>
+                                    <td>
+                                        <?php
+                                        if (!empty($row['upload'])) :
+                                        ?>
+                                            <a target="_blank" href="<?= base_url('uploads/' . $row['upload']); ?>">Download</a>
+                                            <?php
+                                           else : echo "N/A" ;
+                                            ?>
+                                        <?php endif; ?>
+                                    </td>
                                     <td class="c">
                                         <a title="Edit" class="update btn btn-sm btn-primary m-r-10" href="<?= (base_url('admin/users/add_schedule/' . $row['id'])) ?>">
                                             <i class="material-icons">edit</i>

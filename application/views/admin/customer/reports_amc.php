@@ -9,13 +9,13 @@
             <div class="header">
                 <h2>Projects</h2>
 
-                <?php echo form_open(base_url('admin/customer/reports/'), 'class="form-horizontal"');  ?>
+                <?php echo form_open(base_url('admin/customer/reports_amc/'), 'class="form-horizontal"');  ?>
 
                 <div class="row clearfix">
                     <div class="col-lg-5 col-md-2 col-sm-4 col-xs-5 form-control-label">
                         <label for="username"></label>
                     </div>
-                    <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
+                    <!-- <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
                         <div class="form-group">
                             <div class="form-line">
                                 <select class="form-control show-tick live_search department_change" data-live-search="true" name="warranty_status">
@@ -27,8 +27,8 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <!-- <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
+                    </div> -->
+                    <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
                         <div class="form-group">
                             <div class="form-line">
                                 <select class="form-control show-tick live_search department_change" data-live-search="true" name="amc_status">
@@ -40,7 +40,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
                         <div class="form-group">
@@ -62,7 +62,7 @@
                         <thead>
                             <tr>
                                 <th colspan="7">Project Details</th>
-                                <th colspan="2">Warranty</th>
+                                <th colspan="2">AMC/CMS</th>
                                 <th colspan="2"></th>
                             </tr>
                             <tr>
@@ -73,7 +73,7 @@
                                 <th>Model</th>
                                 <th>Shipping</th>
                                 <th>Inst Date</th>
-                                <th>Warranty</th>
+                                <th>AMC/CMS</th>
                                 <th>Status</th>
                                 <?= ($group_id == 6 ? "<th>Action</th>" : "") ?>
                             </tr>
@@ -90,10 +90,10 @@
                                     <td><?= $row['serial_no']; ?></td>
                                     <td><?= $row['shipment_date']; ?></td>
                                     <td><?= $row['installation_date']; ?></td>
-                                    <td><a title="Warranty" class="view_warranty btn btn-sm btn-danger " data-report_id="<?= $row['id'] ?>" data-toggle="modal" data-target="#warranty_details">
+                                    <td><a title="AMC" class="view_warranty btn btn-sm btn-danger " data-report_id="<?= $row['id'] ?>" data-toggle="modal" data-target="#warranty_details">
                                             <i class="material-icons">visibility</i>
                                         </a></td>
-                                    <td><?= $row['warranty_status'] . "<br>" . $row['warranty_end_date']; ?></td>
+                                    <td><?= $row['amc_status'] . "<br>" . $row['amc_end_date']; ?></td>
                                     <?php
                                     if ($group_id == 6) :
                                     ?>
@@ -146,6 +146,34 @@
 </div>
 
 
+<!-- Modal -->
+<div id="warranty_details" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">View AMC/CMS</h4>
+            </div>
+            <div class="modal-body">
+                <table id="warranty_details" class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="text-center">AMC/CMC Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="warranty_body">
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -185,42 +213,6 @@
 
 
 
-
-<!-- Modal -->
-<div id="warranty_details" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">View Warranty Details</h4>
-            </div>
-            <div class="modal-body">
-                <table id="warranty_details" class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th colspan="2" class="text-center">Warranty Details</th>
-                        </tr>
-                    </thead>
-                    <tbody id="warranty_body">
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- <script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-
-<script src="<?= base_url() ?>public/plugins/autosize/autosize.js"></script>
-
-<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script> -->
 <script>
     //Delete Dialogue
     $('#confirm-delete').on('show.bs.modal', function(e) {
@@ -230,7 +222,7 @@
     $(".view_warranty").click(function() {
         var report_id = $(this).data("report_id");
 
-        var url = '<?= base_url('/admin/customer/view_report') ?>';
+        var url = '<?= base_url('/admin/customer/view_report_amc') ?>';
         $.get(url, {
                 report_id: report_id
             })
@@ -254,7 +246,6 @@
             });
     });
 </script>
-
 
 
  <!-- Jquery DataTable Plugin Js -->

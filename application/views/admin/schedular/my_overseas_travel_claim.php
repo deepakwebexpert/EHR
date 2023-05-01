@@ -94,10 +94,10 @@
                                         <?php
                                         if ($sql_mon_data['status'] != 'Approved' && $sql_mon_data['status'] != 'Submitted') {
                                         ?>
-                                            <a href="<?php echo base_url() ?>travel/expense_list/<?= $sql_mon_data['sheet_id'] ?>" class="btn i_pencil" title="Edit"></a>
+                                            <a href="<?php echo base_url() ?>travel/expense_list/<?= $sql_mon_data['sheet_id'] ?>" class="update btn btn-sm btn-primary m-r-10" title="Edit"><i class="material-icons">edit</i></a>
                                             <a href="<?php echo base_url("admin/users/view_domestic_travel_claim/" . $sql_mon_data['sheet_id']) ?>" title="View"> View
                                             </a>
-                                            <a href="<?php echo base_url() ?>travel/domestic_travel_list_delete/<?= $sql_mon_data['sheet_id'] ?>" onclick="return confirm('Are you sure you want to delete My domestic travel sheet?');" class="btn i_trashcan">
+                                            <a href="<?php echo base_url() ?>travel/domestic_travel_list_delete/<?= $sql_mon_data['sheet_id'] ?>" onclick="return confirm('Are you sure you want to delete My domestic travel sheet?');" class="update btn btn-sm btn-primary m-r-10"><i class="material-icons">delete</i>
                                             </a>
                                         <?php } else { ?>
                                             <a href="<?php echo base_url("admin/users/view_domestic_travel_claim/" . $sql_mon_data['sheet_id']) ?>" title="View"> View

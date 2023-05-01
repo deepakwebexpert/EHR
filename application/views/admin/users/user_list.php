@@ -92,13 +92,19 @@
 			},
 			{
 				"targets": 4,
-				"name": "emp_role",
+				"name": "emp_position",
 				'searchable': true,
 				'orderable': true
 			},
 			{
 				"targets": 5,
-				"name": "emp_role",
+				"name": "emp_salary",
+				'searchable': true,
+				'orderable': true
+			},
+			{
+				"targets": 6,
+				"name": "emp_salary",
 				'searchable': true,
 				'orderable': true
 			}

@@ -48,6 +48,7 @@ class Users extends MY_Controller
 
 
 				// '<a title="View" class="view btn btn-sm btn-info" href="' . base_url('admin/users/edit/' . $row['id']) . '"> <i class="material-icons">visibility</i></a><a title="Edit" class="update btn btn-sm btn-primary" href="' . base_url('admin/users/edit/' . $row['id']) . '"> <i class="material-icons">edit</i></a><a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href="' . base_url('admin/users/del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
+
 				'<a title="Edit" class="update btn btn-sm btn-primary m-r-10" href="' . base_url('admin/users/edit/' . $row['id']) . '"> <i class="material-icons">edit</i></a><a title="Delete" class="delete btn btn-sm btn-danger ' . $disabled . '" data-href="' . base_url('admin/users/del/' . $row['id']) . '" data-toggle="modal" data-target="#confirm-delete"> <i class="material-icons">delete</i></a>',
 
 			);
@@ -143,7 +144,6 @@ class Users extends MY_Controller
 					'emp_doj' => $this->input->post('emp_doj'),
 					'emp_status' => 'Active',
 					'report_to' => implode(',', $this->input->post('report_to[]'))
-
 				);
 
 
@@ -190,6 +190,11 @@ class Users extends MY_Controller
 	{
 		$data['reporting_employees'] = $this->user_model->reporting_employees();
 		$data['designation'] = $this->user_model->designation();
+
+		// get User id from Employee Id here
+		// $user_id = $this->db->get_where('ci_users', array('emp_id =' => $id))->row()->id;
+		// $data['user'] = $this->user_model->get_user_by_id($user_id);
+
 		$data['user'] = $this->user_model->get_user_by_id($id);
 		if ($this->input->post('submit')) {
 			$this->form_validation->set_rules('group_id', 'Username', 'trim|required');
@@ -203,6 +208,10 @@ class Users extends MY_Controller
 
 			if ($this->form_validation->run() == FALSE) {
 				$data['user'] = $this->user_model->get_user_by_id($id);
+				// get User id from Employee Id here
+				// $user_id = $this->db->get_where('ci_users', array('emp_id =' => $id))->row()->id;
+				// $data['user'] = $this->user_model->get_user_by_id($user_id);
+
 				$data['user_groups'] = $this->user_model->get_user_groups();
 				$data['view'] = 'admin/users/user_edit';
 				$this->load->view('layout', $data);
@@ -268,10 +277,16 @@ class Users extends MY_Controller
 				}
 			}
 		} else {
-			$data['user'] = $this->user_model->get_user_by_id($id);
+
+			// get User id from Employee Id here
+			$user_id = $this->db->get_where('ci_users', array('emp_id =' => $id))->row()->id;
+			$data['user'] = $this->user_model->get_user_by_id($user_id);
 
 			// Employee data here
 			$data['employee_data'] = $this->db->get_where('jeol_employee_tbl', array('id =' => $data['user']['emp_id']))->row_array();
+
+
+			// print_r($data['user']); die;
 			$data['user_groups'] = $this->user_model->get_user_groups();
 			$data['view'] = 'admin/users/user_edit';
 			$this->load->view('layout', $data);
@@ -987,6 +1002,9 @@ class Users extends MY_Controller
 				$reference = $this->input->post('reference')[$i];
 				$Company_final = $this->input->post('Company')[$i];
 				$Model_no_final = $this->input->post('model_no')[$i];
+				$Amount_two_final = $this->input->post('Amount_two')[$i];
+				$currency_travel = $this->input->post('currency_travel')[$i];
+				$curr_rate = $this->input->post('curr_rate')[$i];
 
 
 				if (!empty($Description_final)) :
@@ -1024,12 +1042,15 @@ class Users extends MY_Controller
 						'reg_date' => date("Y-m-d H:i:s"),
 						'ref_doc' => $doc_data['file_name'],
 						'Status' => 'Not Submitted',
-						'sheet_type' => 1
+						'sheet_type' => 1,
+						'Amount_two' => $Amount_two_final,
+						'currency' => $currency_travel,
+						'curr_rate' => $curr_rate,
 					);
 					$this->db->insert('jeol_travelexp_tbl', $data);
 				endif;
 			}
-			redirect(base_url('admin/users/my_domestic_travel_claim'));
+			redirect(base_url('admin/users/my_overseas_travel_claim'));
 		}
 		$data['customers'] = $this->db->get('customer')->result_array();
 		$data['view'] = 'admin/schedular/add_my_overseas_travel_claim';
@@ -1329,11 +1350,17 @@ class Users extends MY_Controller
 				// Mail Here to all admins
 				$adminsMails = $this->db->get_where('ci_users', array('group_id =' => 6))->result_array();
 
+				// print_r($adminsMails); die;
+
 				foreach ($adminsMails as $key => $value) {
 
+					$this->load->library('email');
+					
 					$to = $this->db->get_where('jeol_employee_tbl', array('emp_code =' => $value['email']))->row()->emp_email;
 					// $to = "";
 
+					$this->email->from('name@gmail.com');
+					$this->email->reply_to('name@gmail.com');
 					$this->email->to($to);
 					// $this->email->cc($data[1]);
 					$this->email->subject('New Order Received');
@@ -1345,7 +1372,10 @@ class Users extends MY_Controller
 					$messagebody = "PO Has Been Uploaded By " . $value['firstname'] . '  ' . $value['lastname'];
 					$this->email->message($messagebody);
 					$this->email->send();
+					echo $this->email->print_debugger();
+					// sahil@dreamzdigitalsolutions.com
 				}
+				// die;
 				redirect(base_url('admin/customer/emp_customers'));
 			}
 		}

@@ -42,4 +42,13 @@ class Department extends MY_Controller
 		$data['view'] = 'admin/department/add_department';
 		$this->load->view('layout', $data);
 	}
+
+	public function del_department($id)
+	{
+		if ($id != 0) {
+			$this->db->where('id', $id);
+			$this->db->delete('jeol_hr_tbl');
+			redirect(base_url('admin/department'));
+		}
+	}
 }

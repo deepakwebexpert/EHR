@@ -132,7 +132,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick live_search department_change" data-live-search="true" name="department" required>
+                                    <select class="form-control show-tick live_search department_change" data-live-search="true" name="department" >
                                         <option value="">-- Please select --</option>
                                         <?php foreach ($department as $group) : ?>
                                             <option value="<?= $group['id']; ?>" <?= ($schedule['department'] == $group['id'] ? 'selected' : '') ?>><?= $group['cust_depart']; ?></option>
@@ -151,7 +151,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick live_search project_change" data-live-search="true" name="project" required>
+                                    <select class="form-control show-tick live_search project_change" data-live-search="true" name="project">
                                         <option value="">-- Please select --</option>
                                         <?php foreach ($project as $group) : ?>
                                             <option value="<?= $group['id']; ?>" <?= ($schedule['project'] == $group['id'] ? 'selected' : '') ?>><?= $group['instrument']; ?></option>
@@ -163,7 +163,7 @@
                     </div>
 
 
-                    <div class="row clearfix">
+                    <!-- <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="group">Product Segment</label>
                         </div>
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
@@ -249,7 +249,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="file" name="document" class="form-control" required>
+                                    <input type="file" name="document" class="form-control">
                                 </div>
                             </div>
                         </div>

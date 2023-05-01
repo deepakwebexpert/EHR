@@ -37,7 +37,7 @@
                                     <td><button type="button" class="btn bg-light-blue  btn-sm waves-effect"><?= ($row['status'] == 'Active') ? 'Active' : 'inactive' ?></button></td>
 
                                     <td class="c">
-                                        <a href="<?= (base_url('admin/department/add_department/' . $row['id'])) ?>">Edit</a> | <a href="">Delete</a>
+                                        <a class="update btn btn-sm btn-primary m-r-10" href="<?= (base_url('admin/department/add_department/' . $row['id'])) ?>"><i class="material-icons">edit</i></a>  <a class="update btn btn-sm btn-danger m-r-10" href="<?= base_url("admin/department/del_department/").$row['id'] ?>"><i class="material-icons">delete</i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -51,14 +51,15 @@
 <!-- #END# Exportable Table -->
 
 
-<!-- <script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
-<script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
-
-<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script> -->
+ <!-- Jquery DataTable Plugin Js -->
+ <script src="<?= base_url()?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/jszip.min.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/pdfmake.min.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/vfs_fonts.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
+  <script src="<?= base_url()?>public/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
+  <!-- Custom Js -->
+  <script src="<?= base_url()?>public/js/pages/tables/jquery-datatable.js"></script>

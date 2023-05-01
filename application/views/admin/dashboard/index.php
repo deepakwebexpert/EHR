@@ -14,8 +14,8 @@ if ($group_id == 6) :
                         <i class="material-icons">face</i>
                     </div>
                     <div class="content">
-                        <div class="text">NEW USERS</div>
-                        <div class="number count-to" data-from="0" data-to="<?= $all_users; ?>" data-speed="15" data-fresh-interval="20"></div>
+                        <div class="text">New Projects</div>
+                        <div class="number count-to"><?= $all_projects ?></div>
                     </div>
                 </div>
             </div>
@@ -25,8 +25,8 @@ if ($group_id == 6) :
                         <i class="material-icons">people</i>
                     </div>
                     <div class="content">
-                        <div class="text">ACTIVE USERS</div>
-                        <div class="number count-to" data-from="0" data-to="<?= $active_users; ?>" data-speed="1000" data-fresh-interval="20"></div>
+                        <div class="text">Expired Projects</div>
+                        <div class="number count-to"><?= $expired_projects ?></div>
                     </div>
                 </div>
             </div>
@@ -36,8 +36,8 @@ if ($group_id == 6) :
                         <i class="material-icons">block</i>
                     </div>
                     <div class="content">
-                        <div class="text">INACTIVE USERS</div>
-                        <div class="number count-to" data-from="0" data-to="<?= $deactive_users; ?>" data-speed="1000" data-fresh-interval="20"></div>
+                        <div class="text">Expired Projects In 1 Month</div>
+                        <div class="number count-to"><?= $exp_1_month ?></div>
                     </div>
                 </div>
             </div>
@@ -47,162 +47,20 @@ if ($group_id == 6) :
                         <i class="material-icons">equalizer</i>
                     </div>
                     <div class="content">
-                        <div class="text">NEW VISITORS</div>
-                        <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20"></div>
+                        <div class="text">No. Of Employees</div>
+                        <div class="number count-to"><?= $employees ?></div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- #END# Widgets -->
-        <!-- CPU Usage -->
+
+
         <div class="row clearfix">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <div class="row clearfix">
-                            <div class="col-xs-12 col-sm-6">
-                                <h2>CPU USAGE (%)</h2>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 align-right">
-                                <div class="switch panel-switch-btn">
-                                    <span class="m-r-10 font-12">REAL TIME</span>
-                                    <label>OFF<input type="checkbox" id="realtime" checked><span class="lever switch-col-cyan"></span>ON</label>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="javascript:void(0);">Action</a></li>
-                                    <li><a href="javascript:void(0);">Another action</a></li>
-                                    <li><a href="javascript:void(0);">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="body">
-                        <div id="real_time_chart" class="dashboard-flot-chart"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- #END# CPU Usage -->
-        <div class="row clearfix">
-            <!-- Visitors -->
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="body bg-pink">
-                        <div class="sparkline" data-type="line" data-spot-Radius="4" data-highlight-Spot-Color="rgb(233, 30, 99)" data-highlight-Line-Color="#fff" data-min-Spot-Color="rgb(255,255,255)" data-max-Spot-Color="rgb(255,255,255)" data-spot-Color="rgb(255,255,255)" data-offset="90" data-width="100%" data-height="92px" data-line-Width="2" data-line-Color="rgba(255,255,255,0.7)" data-fill-Color="rgba(0, 188, 212, 0)">
-                            12,10,9,6,5,6,10,5,7,5,12,13,7,12,11
-                        </div>
-                        <ul class="dashboard-stat-list">
-                            <li>
-                                TODAY
-                                <span class="pull-right"><b>1 200</b> <small>USERS</small></span>
-                            </li>
-                            <li>
-                                YESTERDAY
-                                <span class="pull-right"><b>3 872</b> <small>USERS</small></span>
-                            </li>
-                            <li>
-                                LAST WEEK
-                                <span class="pull-right"><b>26 582</b> <small>USERS</small></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #END# Visitors -->
-            <!-- Latest Social Trends -->
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="body bg-cyan">
-                        <div class="m-b--35 font-bold">LATEST SOCIAL TRENDS</div>
-                        <ul class="dashboard-stat-list">
-                            <li>
-                                #socialtrends
-                                <span class="pull-right">
-                                    <i class="material-icons">trending_up</i>
-                                </span>
-                            </li>
-                            <li>
-                                #materialdesign
-                                <span class="pull-right">
-                                    <i class="material-icons">trending_up</i>
-                                </span>
-                            </li>
-                            <li>#adminbsb</li>
-                            <li>#freeadmintemplate</li>
-                            <li>#bootstraptemplate</li>
-                            <li>
-                                #freehtmltemplate
-                                <span class="pull-right">
-                                    <i class="material-icons">trending_up</i>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #END# Latest Social Trends -->
-            <!-- Answered Tickets -->
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-                <div class="card">
-                    <div class="body bg-teal">
-                        <div class="font-bold m-b--35">ANSWERED TICKETS</div>
-                        <ul class="dashboard-stat-list">
-                            <li>
-                                TODAY
-                                <span class="pull-right"><b>12</b> <small>TICKETS</small></span>
-                            </li>
-                            <li>
-                                YESTERDAY
-                                <span class="pull-right"><b>15</b> <small>TICKETS</small></span>
-                            </li>
-                            <li>
-                                LAST WEEK
-                                <span class="pull-right"><b>90</b> <small>TICKETS</small></span>
-                            </li>
-                            <li>
-                                LAST MONTH
-                                <span class="pull-right"><b>342</b> <small>TICKETS</small></span>
-                            </li>
-                            <li>
-                                LAST YEAR
-                                <span class="pull-right"><b>4 225</b> <small>TICKETS</small></span>
-                            </li>
-                            <li>
-                                ALL
-                                <span class="pull-right"><b>8 752</b> <small>TICKETS</small></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- #END# Answered Tickets -->
-        </div>
-
-        <div class="row clearfix">
-            <!-- Task Info -->
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <div class="card">
-                    <div class="header">
-                        <h2>TASK INFOS</h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="javascript:void(0);">Action</a></li>
-                                    <li><a href="javascript:void(0);">Another action</a></li>
-                                    <li><a href="javascript:void(0);">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <h2>New Scheduled Clients</h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
@@ -210,105 +68,152 @@ if ($group_id == 6) :
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Task</th>
-                                        <th>Status</th>
-                                        <th>Manager</th>
-                                        <th>Progress</th>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Address</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Task A</td>
-                                        <td><span class="label bg-green">Doing</span></td>
-                                        <td>John Doe</td>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" style="width: 62%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Task B</td>
-                                        <td><span class="label bg-blue">To Do</span></td>
-                                        <td>John Doe</td>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Task C</td>
-                                        <td><span class="label bg-light-blue">On Hold</span></td>
-                                        <td>John Doe</td>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-light-blue" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Task D</td>
-                                        <td><span class="label bg-orange">Wait Approvel</span></td>
-                                        <td>John Doe</td>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Task E</td>
-                                        <td>
-                                            <span class="label bg-red">Suspended</span>
-                                        </td>
-                                        <td>John Doe</td>
-                                        <td>
-                                            <div class="progress">
-                                                <div class="progress-bar bg-red" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" style="width: 87%"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php
+                                    $i;
+                                    foreach ($scheduled_clients as $key => $value) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $value['cust_name'] ?></td>
+                                            <td><?= $value['cust_location'] ?></td>
+                                            <td><?= $value['cust_address'] ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- #END# Task Info -->
-            <!-- Browser Usage -->
-            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        </div>
+
+        <!-- <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>BROWSER USAGE</h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">more_vert</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="javascript:void(0);">Action</a></li>
-                                    <li><a href="javascript:void(0);">Another action</a></li>
-                                    <li><a href="javascript:void(0);">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <h2>Last 10 Days Order Received</h2>
                     </div>
                     <div class="body">
-                        <div id="donut_chart" class="dashboard-donut-chart"></div>
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i;
+                                    foreach ($scheduled_clients as $key => $value) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $value['cust_name'] ?></td>
+                                            <td><?= $value['cust_location'] ?></td>
+                                            <td><?= $value['cust_address'] ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <!-- #END# Browser Usage -->
+        </div> -->
+
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Projects Expiring in 10 Days</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer</th>
+                                        <th>Sl. No.</th>
+                                        <th>SG</th>
+                                        <th>Model</th>
+                                        <th>Shipping</th>
+                                        <th>Inst Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($project_expired_in_10_days as $key => $row) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $this->db->get_where('customer', array('cust_id =' => $row['cust_id']))->row()->cust_name; ?></td>
+                                            <td><?= $row['po_no']; ?></td>
+                                            <td><?= $row['model_no']; ?></td>
+                                            <td><?= $row['serial_no']; ?></td>
+                                            <td><?= $row['shipment_date']; ?></td>
+                                            <td><?= $row['installation_date']; ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>AMC Expiring in 10 Days</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer</th>
+                                        <th>AMC Amount</th>
+                                        <th>AMC Start Date</th>
+                                        <th>AMC End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($amc_expired_in_10_days as $key => $row) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $this->db->get_where('customer', array('cust_id =' => $row['cust_id']))->row()->cust_name; ?></td>
+                                            <td><?= $row['amc_amount']; ?></td>
+                                            <td><?= $row['amc_start_date']; ?></td>
+                                            <td><?= $row['amc_end_date']; ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="<?= base_url() ?>public/plugins/jquery-countto/jquery.countTo.js"></script>
+    <!-- <script src="<?= base_url() ?>public/plugins/jquery-countto/jquery.countTo.js"></script>
 
     <script src="<?= base_url() ?>public/plugins/raphael/raphael.min.js"></script>
     <script src="<?= base_url() ?>public/plugins/morrisjs/morris.js"></script>
@@ -323,12 +228,55 @@ if ($group_id == 6) :
 
     <script src="<?= base_url() ?>public/plugins/jquery-sparkline/jquery.sparkline.js"></script>
 
-    <script src="<?= base_url() ?>public/js/pages/index.js"></script>
+    <script src="<?= base_url() ?>public/js/pages/index.js"></script> -->
 <?php
 elseif ($group_id == 28) : ?>
     <link href="<?= base_url() ?>public/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
+    <div class="row clearfix">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Last 10 Orders</h2>
+                </div>
+                <div class="body">
+                    <div class="table-responsive">
+                    <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer</th>
+                                        <th>Sl. No.</th>
+                                        <th>SG</th>
+                                        <th>Model</th>
+                                        <th>Shipping</th>
+                                        <th>Inst Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($emp_last_10_projects as $key => $row) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $this->db->get_where('customer', array('cust_id =' => $row['cust_id']))->row()->cust_name; ?></td>
+                                            <td><?= $row['po_no']; ?></td>
+                                            <td><?= $row['model_no']; ?></td>
+                                            <td><?= $row['serial_no']; ?></td>
+                                            <td><?= $row['shipment_date']; ?></td>
+                                            <td><?= $row['installation_date']; ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card">
+
         <div class="header">
             <h2>
                 Add Schedule
@@ -396,13 +344,12 @@ elseif ($group_id == 28) : ?>
 
             </div> -->
 
+
             <div class="row clearfix">
-                <?php echo form_open(base_url('admin/dashboard'), 'class="form-horizontal"');  ?>
-
-
                 <div class="row clearfix">
                     <div class="col-lg-6 col-md-6 col-sm-4 col-xs-5 form-control-label">
                         <?php echo form_open_multipart(base_url('admin/users/add_schedule/' . $id), 'class="form-horizontal"');  ?>
+
 
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
@@ -411,7 +358,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="date" name="start_date" class="form-control" value="<?= ($schedule['start_date']) ?>" required>
+                                        <input type="date" name="s_date" class="form-control" value="<?= ($schedule['date']) ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -421,10 +368,21 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="username">Start Time</label>
                             </div>
-                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="col-lg-6 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="time" name="start_time_appm" class="form-control" value="<?= ($schedule['start_time_appm']) ?>" required>
+                                        <input type="time" name="start_date" class="form-control" value="<?= ($schedule['start_date']) ?>" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select class="form-control" name="start_date_ampm" required>
+                                            <option value="A.M" <?= ($schedule['start_date_ampm'] == "A.M" ? "selected" : '') ?>>A.M</option>
+                                            <option value="P.M" <?= ($schedule['start_date_ampm'] == "P.M" ? "selected" : '') ?>>P.M</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -437,7 +395,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="date" name="end_date" class="form-control" value="<?= ($schedule['end_date']) ?>" required>
+                                        <input type="date" name="final_date" class="form-control" value="<?= ($schedule['final_date']) ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -447,13 +405,25 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="username">Approx End Time</label>
                             </div>
-                            <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="col-lg-6 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="time" name="end_time_appm" class="form-control" value="<?= ($schedule['end_time_appm']) ?>" required>
+                                        <input type="time" name="end_date" class="form-control" value="<?= ($schedule['end_date']) ?>" required>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-2 col-md-10 col-sm-8 col-xs-7">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <select class="form-control" name="end_date_ampm" required>
+                                            <option value="A.M" <?= ($schedule['end_date_ampm'] == "A.M" ? "selected" : '') ?>>A.M</option>
+                                            <option value="P.M" <?= ($schedule['end_date_ampm'] == "P.M" ? "selected" : '') ?>>P.M</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="row clearfix">
@@ -466,7 +436,7 @@ elseif ($group_id == 28) : ?>
                                         <select class="form-control show-tick live_search company_change" data-live-search="true" name="company" required>
                                             <option value="">-- Please select --</option>
                                             <?php foreach ($customer_data as $group) : ?>
-                                                <option value="<?= $group['cust_id']; ?>" <?= ($schedule['company'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name'] . '--' . ($group['status'] == 0 ? "Not Approved" : "Approved"); ?></option>
+                                                <option value="<?= $group['id']; ?>" <?= ($schedule['company'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name'] . '--' . ($group['status'] == 0 ? "Not Approved" : "Approved"); ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -486,7 +456,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <select class="form-control show-tick live_search department_change" data-live-search="true" name="department" required>
+                                        <select class="form-control show-tick live_search department_change" data-live-search="true" name="department">
                                             <option value="">-- Please select --</option>
                                             <?php foreach ($department as $group) : ?>
                                                 <option value="<?= $group['id']; ?>" <?= ($schedule['department'] == $group['id'] ? 'selected' : '') ?>><?= $group['cust_depart']; ?></option>
@@ -505,7 +475,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <select class="form-control show-tick live_search project_change" data-live-search="true" name="project" required>
+                                        <select class="form-control show-tick live_search project_change" data-live-search="true" name="project">
                                             <option value="">-- Please select --</option>
                                             <?php foreach ($project as $group) : ?>
                                                 <option value="<?= $group['id']; ?>" <?= ($schedule['project'] == $group['id'] ? 'selected' : '') ?>><?= $group['instrument']; ?></option>
@@ -517,7 +487,7 @@ elseif ($group_id == 28) : ?>
                         </div>
 
 
-                        <div class="row clearfix">
+                        <!-- <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                                 <label for="group">Product Segment</label>
                             </div>
@@ -536,7 +506,7 @@ elseif ($group_id == 28) : ?>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="row clearfix">
                             <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
@@ -545,7 +515,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" name="meeting_agenda" class="form-control" value="<?= ($schedule['meeting_agenda']) ?>" required>
+                                        <input type="text" name="meeting_time" class="form-control" value="<?= ($schedule['meeting_time']) ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -558,7 +528,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <textarea rows="5" cols="45" name="description"><?= ($schedule['description']) ?></textarea>
+                                        <textarea rows="5" cols="50" name="description"><?= ($schedule['description']) ?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -571,11 +541,11 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <select class="form-control show-tick" name="service_type" required>
+                                        <select class="form-control show-tick" name="company_services">
                                             <option value="Sales/Installation/Trainee">Sales/Installation/Trainee</option>
-                                            <option value="AMC/CMC" <?= ($schedule['service_type'] == "AMC/CMC" ? "selected" : '') ?>>>AMC/CMC</option>
-                                            <option value="Warranty/Demand" <?= ($schedule['service_type'] == "Warranty/Demand" ? "selected" : '') ?>>Warranty/Demand</option>
-                                            <option value="Enquiry/Other" <?= ($schedule['service_type'] == "Enquiry/Other" ? "selected" : '') ?>>Enquiry/Other</option>
+                                            <option value="AMC/CMC" <?= ($schedule['company_services'] == "AMC/CMC" ? "selected" : '') ?>>>AMC/CMC</option>
+                                            <option value="Warranty/Demand" <?= ($schedule['company_services'] == "Warranty/Demand" ? "selected" : '') ?>>Warranty/Demand</option>
+                                            <option value="Enquiry/Other" <?= ($schedule['company_services'] == "Enquiry/Other" ? "selected" : '') ?>>Enquiry/Other</option>
                                         </select>
                                     </div>
                                 </div>
@@ -590,7 +560,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="text" name="visit_count" class="form-control" value="<?= ($schedule['visit_count']) ?>" required>
+                                        <input type="text" name="visit" class="form-control" value="<?= ($schedule['visit']) ?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -603,7 +573,7 @@ elseif ($group_id == 28) : ?>
                             <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <input type="file" name="document" class="form-control" required>
+                                        <input type="file" name="document" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -659,10 +629,9 @@ elseif ($group_id == 28) : ?>
 
                             {
 
-                                title: '<?php echo $sql_check_data->company . '   ' . $sql_check_data->meeting_agenda; ?>',
-                                start: '<?php echo $sql_check_data->start_date; ?>',
-
-                                end: '<?php echo $sql_check_data->end_date; ?>'
+                                title: '<?php echo $sql_check_data->company_services; ?>',
+                                start: '<?php echo $sql_check_data->date; ?>',
+                                end: '<?php echo $sql_check_data->final_date; ?>'
 
 
 
@@ -680,12 +649,187 @@ elseif ($group_id == 28) : ?>
             });
     </script>
 <?php elseif ($group_id == 26) : ?>
-    
+
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>DASHBOARD</h2>
+        </div>
+
+        <!-- Widgets -->
+        <div class="row clearfix">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box bg-pink hover-expand-effect">
+                    <div class="icon">
+                        <i class="material-icons">face</i>
+                    </div>
+                    <div class="content">
+                        <div class="text">New Projects</div>
+                        <div class="number count-to"><?= $tl_all_projects ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box bg-cyan hover-expand-effect">
+                    <div class="icon">
+                        <i class="material-icons">people</i>
+                    </div>
+                    <div class="content">
+                        <div class="text">Expired Projects</div>
+                        <div class="number count-to"><?= $tl_expired_projects ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box bg-light-green hover-expand-effect">
+                    <div class="icon">
+                        <i class="material-icons">block</i>
+                    </div>
+                    <div class="content">
+                        <div class="text">Expired Projects In 1 Month</div>
+                        <div class="number count-to"><?= $tl_exp_1_month ?></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box bg-orange hover-expand-effect">
+                    <div class="icon">
+                        <i class="material-icons">equalizer</i>
+                    </div>
+                    <div class="content">
+                        <div class="text">No. Of Employees</div>
+                        <div class="number count-to"><?= $tl_employees ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Widgets -->
+
+
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>New Scheduled Clients</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i;
+                                    foreach ($tl_scheduled_clients as $key => $value) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $value['cust_name'] ?></td>
+                                            <td><?= $value['cust_location'] ?></td>
+                                            <td><?= $value['cust_address'] ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Projects Expiring in 10 Days</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer</th>
+                                        <th>Sl. No.</th>
+                                        <th>SG</th>
+                                        <th>Model</th>
+                                        <th>Shipping</th>
+                                        <th>Inst Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($tl_project_expired_in_10_days as $key => $row) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $this->db->get_where('customer', array('cust_id =' => $row['cust_id']))->row()->cust_name; ?></td>
+                                            <td><?= $row['po_no']; ?></td>
+                                            <td><?= $row['model_no']; ?></td>
+                                            <td><?= $row['serial_no']; ?></td>
+                                            <td><?= $row['shipment_date']; ?></td>
+                                            <td><?= $row['installation_date']; ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>AMC Expiring in 10 Days</h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-hover dashboard-task-infos">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Customer</th>
+                                        <th>AMC Amount</th>
+                                        <th>AMC Start Date</th>
+                                        <th>AMC End Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($tl_amc_expired_in_10_days as $key => $row) : ?>
+                                        <tr>
+                                            <td><?= ++$i ?></td>
+                                            <td><?= $this->db->get_where('customer', array('cust_id =' => $row['cust_id']))->row()->cust_name; ?></td>
+                                            <td><?= $row['amc_amount']; ?></td>
+                                            <td><?= $row['amc_start_date']; ?></td>
+                                            <td><?= $row['amc_end_date']; ?></td>
+
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="body">
             <div id='calendar'></div>
         </div>
-
     </div>
 
     <link href='<?= base_url() ?>public/plugins/calendar/fullcalendar.min.css' rel='stylesheet' />
@@ -712,8 +856,7 @@ elseif ($group_id == 28) : ?>
                         foreach ($tl_calendar as $sql_check_data) {
 
 
-                        ?>
-                            {
+                        ?> {
 
                                 title: '<?php echo $sql_check_data->company_services; ?>',
                                 start: '<?php echo $sql_check_data->date; ?>',

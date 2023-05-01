@@ -6,7 +6,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Leave Mail Listing
+                    Leave Travel Listing
                 </h2>
                 <a href="<?= base_url('admin/email/add_travel_emails'); ?>" class="btn bg-deep-orange waves-effect pull-right"><i class="material-icons">person_add</i> Add New</a>
             </div>
@@ -48,7 +48,7 @@
 <!-- #END# Exportable Table -->
 
 
-<!-- <script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
+<script src="<?= base_url() ?>public/plugins/jquery-datatable/jquery.dataTables.js"></script>
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js"></script>
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.flash.min.js"></script>
@@ -58,4 +58,4 @@
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"></script>
 <script src="<?= base_url() ?>public/plugins/jquery-datatable/extensions/export/buttons.print.min.js"></script>
 
-<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script> -->
+<script src="<?= base_url() ?>public/js/pages/tables/jquery-datatable.js"></script> 

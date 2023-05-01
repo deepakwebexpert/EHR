@@ -5,7 +5,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Add Schedule Mail
                 </h2>
                 <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
             </div>

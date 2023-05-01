@@ -22,7 +22,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Access Group</label>
+                            <label for="group">Access Group <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -41,7 +41,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Reporting Person</label>
+                            <label for="group">Reporting Person <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -61,7 +61,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Name</label>
+                            <label for="username">Name <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -74,7 +74,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="username">Employee Grade</label>
+                            <label for="username">Employee Grade <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -87,7 +87,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="firstname">Employee Code</label>
+                            <label for="firstname">Employee Code <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -100,7 +100,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Designation</label>
+                            <label for="group">Designation <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -108,7 +108,7 @@
                                     <select class="form-control show-tick" name="emp_position" required>
                                         <option value="">-- Please select --</option>
                                         <?php foreach ($designation as $group) : ?>
-                                            <option <?= ($employee_data['emp_position'] == $group['name'] ? "selected" : "") ?> value="<?= $group['name']; ?>"><?= $group['name']; ?></option>
+                                            <option <?= ($employee_data['emp_position'] == $group['id'] ? "selected" : "") ?> value="<?= $group['id']; ?>"><?= $group['name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -119,7 +119,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="lastname">Role</label>
+                            <label for="lastname">Role <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -131,7 +131,7 @@
                     </div>
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="email">Contact Number</label>
+                            <label for="email">Contact Number <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -144,7 +144,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="email">Email</label>
+                            <label for="email">Email <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -157,7 +157,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="password">Password</label>
+                            <label for="password">Password <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -169,7 +169,7 @@
                     </div>
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="mobile no">Salary</label>
+                            <label for="mobile no">Salary <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-6 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -188,7 +188,7 @@
                     </div>
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="address">Joining Date</label>
+                            <label for="address">Joining Date <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -201,7 +201,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="address">Address</label>
+                            <label for="address">Address <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -215,7 +215,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="address">City</label>
+                            <label for="address">City <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
@@ -229,7 +229,7 @@
 
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                            <label for="group">Country</label>
+                            <label for="group">Country <span class="red">*</span></label>
                         </div>
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">

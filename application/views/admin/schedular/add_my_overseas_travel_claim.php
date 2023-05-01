@@ -30,7 +30,7 @@
 
             <div class="body">
 
-                <?php echo form_open_multipart(base_url('admin/users/add_my_domestic_travel_claim/' . $id), 'class="form-horizontal"');  ?>
+                <?php echo form_open_multipart(base_url('admin/users/add_my_overseas_travel_claim/' . $id), 'class="form-horizontal"');  ?>
 
 
                 <div class="row clearfix">
@@ -81,7 +81,7 @@
                     <div class="col-lg-5 col-md-10 col-sm-8 col-xs-7">
                         <div class="form-group">
                             <div class="form-line">
-                                <input type="file" name="upload_file" class="form-control" value="" required>
+                                <input type="file" accept="application/pdf" name="upload_file" class="form-control" value="" required>
                             </div>
                         </div>
                     </div>
@@ -200,6 +200,8 @@
                                 <th>Particulars</th>
                                 <th>Account Code</th>
                                 <th>Transaction Type</th>
+                                <th>Amount</th>
+                                <th>Currency/Rate</th>
                                 <th>Amount(INR)</th>
                                 <th>Reference No</th>
                                 <th>Ref Document</th>
@@ -254,7 +256,29 @@
                                 </td>
 
                                 <td>
-                                    <input type="text" class="form-control" value="" id="dpy_<?= $j?>" name="paymnet_by[]" <?php if ($j == 1) echo "required" ?>>
+                                    <input type="text" class="form-control" value="" id="dpy_<?= $j ?>" name="paymnet_by[]" <?php if ($j == 1) echo "required" ?>>
+                                </td>
+
+
+                                <td>
+                                    <input type="text" class="form-control" value="" name="Amount_two[]" <?php if ($j == 1) echo "required" ?>>
+                                </td>
+
+                                <td>
+                                    <!-- <div class="col-lg-6"> -->
+                                        <select name="currency_travel[]" <?php if ($j == 1) echo "required" ?> class="form-control">
+                                            <option value="">Select</option>
+                                            <option value="JPY">JPY</option>
+                                            <option value="INR">INR</option>
+                                            <option value="USD">USD</option>
+                                            <option value="SGD">SGD</option>
+                                        </select>
+
+                                    <!-- </div> -->
+                                    <!-- <div class="col-lg-6"> -->
+                                        <input type="text" maxlength="5" class="form-control" value="" name="curr_rate[]" <?php if ($j == 1) echo "required" ?>>
+
+                                    <!-- </div> -->
                                 </td>
 
                                 <td>
@@ -266,7 +290,7 @@
                                 </td>
 
                                 <td>
-                                    <input type="file" class="form-control" value="" name="docs[]" <?php if ($j == 1) echo "required" ?>>
+                                    <input type="file" accept="application/pdf" class="form-control" value="" name="docs[]" <?php if ($j == 1) echo "required" ?>>
                                 </td>
                             </tr>
 
@@ -319,7 +343,7 @@
 
 
 
-        var recRow = '<tr  id="rowCount' + rowCount + '" class="gradeA "><td width="1%">' + rowCount + '</td><td width="8%"><input class="form-control" type="date" value="" id="date<?= $j ?>"  name="travel_date[]" placeholder="yyyy-mm-dd" class="g10"  required ></td><td width="9%"><input type="text" class="form-control" size="10" name="model_no[]"  style="width:100px" /></td><td width="11%"> <select class="form-control show-tick live_search department_change" name="app_teamleader" required><?php foreach ($customers as $group) : ?><option value="<?= $group['id']; ?>" <?= ($department['app_teamleader'] == $group['id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option><?php endforeach; ?></select></td><td width="18%"><input class="form-control" type="text"  id="required_field" class="g12"  name="Description[]"  value="" ></td><td width ="8%" class="c"><select name="acc_code[]" id="py_' + rowCount + '" onChange="document.getElementById(\'d\'+this.id).value=this.value"><option value="">Select</option><option value="Purchase">45150</option><option value="Staff Welfare" >55030</option><option value="Supply Exp">55032</option><option value="Maintenance">550332</option><option value="Vehicle Exp">550333</option><option value="Travel Exp">55034</option><option value="Communication">55036</option><option value="Entertainment">55041</option><option value="Paid By Self">5503411</option><option value="Paid By Company">5503410</option></select></td><td width="12%" class="c"><input class="form-control" type="text" class="g10" name="paymnet_by[]" id="dpy_' + rowCount + '" value="" ></td><td width="6%" class="c"><input class="form-control" id="date" name="Amount[]" value="" type="text" onKeyPress="return isNumberKey(event)" ></td><td width="6%" class="c"><input class="form-control" id="date" name="reference[]" value="" class="g10" type="text"></td><td width="8%" class="c"><input type="file" class="form-control" name="category_image[]" /><a href="javascript:void(0);" class="button" onclick="removeRow(' + rowCount + ');"><b>X</b></a></td></tr>';
+        var recRow = '<tr id="rowCount' + rowCount + '" class="gradeA "><td width="1%">' + rowCount + '</td><td width="8%"><input class="form-control" type="date" value="" id="date<?= $j ?>"  name="travel_date[]" placeholder="yyyy-mm-dd" class="g10"  required ></td><td width="9%"><input type="text" class="form-control" size="10" name="model_no[]"  style="width:100px" /></td><td width="11%"> <select class="form-control show-tick live_search department_change" name="app_teamleader" required><?php foreach ($customers as $group) : ?><option value="<?= $group['id']; ?>" <?= ($department['app_teamleader'] == $group['id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option><?php endforeach; ?></select></td><td width="18%"><input class="form-control" type="text"  id="required_field" class="g12"  name="Description[]"  value="" ></td><td width ="8%" class="c"><select name="acc_code[]" id="py_' + rowCount + '" onChange="document.getElementById(\'d\'+this.id).value=this.value"><option value="">Select</option><option value="Purchase">45150</option><option value="Staff Welfare" >55030</option><option value="Supply Exp">55032</option><option value="Maintenance">550332</option><option value="Vehicle Exp">550333</option><option value="Travel Exp">55034</option><option value="Communication">55036</option><option value="Entertainment">55041</option><option value="Paid By Self">5503411</option><option value="Paid By Company">5503410</option></select></td><td width="12%" class="c"><input class="form-control" type="text" class="g10" name="paymnet_by[]" id="dpy_' + rowCount + '" value="" ></td><td><input type="text" class="form-control" value="" name="Amount_two[]" <?php if ($j == 1) echo "required" ?>></td><td><select name="currency_travel[]" required="" class="form-control"><option value="">Select</option><option value="JPY">JPY</option><option value="INR">INR</option><option value="USD">USD</option><option value="SGD">SGD</option></select><input type="text" maxlength="5" class="form-control" value="" name="curr_rate[]" required=""></td><td class="c"><input class="form-control" id="date" name="Amount[]" value="" type="text" onKeyPress="return isNumberKey(event)" ></td><td width="6%" class="c"><input class="form-control" id="date" name="reference[]" value="" class="g10" type="text"></td><td width="8%" class="c"><input type="file" class="form-control" name="category_image[]" /><a href="javascript:void(0);" class="button" onclick="removeRow(' + rowCount + ');"><b>X</b></a></td></tr>';
         jQuery('#addedRows').append(recRow);
 
 

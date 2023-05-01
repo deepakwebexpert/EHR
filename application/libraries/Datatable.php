@@ -18,6 +18,7 @@ class Datatable
 		}
 		$query = $this->obj->db->query($SQL);
 		$total = $query->num_rows();
+		
 		//------------------------------------------------
 		if(!empty($_GET['search']['value']))
 		{
@@ -31,6 +32,7 @@ class Datatable
 			$SQL.= implode("OR",$qry);
 			$SQL.= " ) ";	
 		}
+
         //------------------------------------------------
 		if(!empty($GROUP_BY))
 		{
@@ -45,6 +47,7 @@ class Datatable
 		$SQL.= $_GET['order'][0]['dir'];
 		$SQL.= " LIMIT ".$_GET['length']." OFFSET ".$_GET['start']." ";
 
+		
 		$query = $this->obj->db->query($SQL);
 		$data = $query->result_array();
 		

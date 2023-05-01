@@ -5,9 +5,9 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Add Customer
+                    Add Project
                 </h2>
-                <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a>
+                <!-- <a href="<?= base_url('admin/users/'); ?>" class="btn bg-deep-orange waves-effect pull-right">Users List</a> -->
             </div>
             <div class="body">
 
@@ -35,10 +35,10 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control show-tick customer_change live_search" data-live-search="true"  name="cust_id" required>
+                                    <select class="form-control show-tick customer_change live_search" data-live-search="true" name="cust_id" required>
                                         <!-- <option value="">-- Please select --</option> -->
                                         <?php foreach ($customer_data as $group) : ?>
-                                            <option value="<?= $group['cust_id']; ?>" <?= ($reports['cust_id'] == $group['cust_id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option>
+                                            <option value="<?= $group['id']; ?>" <?= ($reports['cust_id'] == $group['id'] ? 'selected' : '') ?>><?= $group['cust_name']; ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
@@ -55,7 +55,6 @@
                                 <div class="form-line">
                                     <select class="form-control show-tick department_change" name="cust_dept" required>
                                         <option value="<?= $selected_department['cust_id']; ?>"><?= $selected_department['cust_depart']; ?></option>
-
                                     </select>
                                 </div>
                             </div>
@@ -271,6 +270,27 @@
                         </div>
                     </div>
 
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="username">Warranty Status</label>
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select name="warranty_status" class="form-control">
+                                        <option value="NotYet" <?= ($reports['warranty_status'] == "NotYet" ? "selected" : "") ?>>NotYet</option>
+                                        <option value="TO BE EXPIRED" <?= ($reports['warranty_status'] == "TO BE EXPIRED" ? "selected" : "") ?>>TO BE EXPIRED</option>
+                                        <option value="Expired" <?= ($reports['warranty_status'] == "Expired" ? "selected" : "") ?>>Expired</option>
+                                        <option value="Valid" <?= ($reports['warranty_status'] == "Valid" ? "selected" : "") ?>>Valid</option>
+                                        <option value="Active" <?= ($reports['warranty_status'] == "Active" ? "selected" : "") ?>>Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="username">Additional Documents</label>
@@ -278,7 +298,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="file" name="additional_documents" class="form-control" required>
+                                    <input type="file" name="additional_documents" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -336,6 +356,26 @@
                         </div>
                     </div>
 
+
+                    <div class="row clearfix">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                            <label for="username">AMC Status</label>
+                        </div>
+                        <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select name="amc_status" class="form-control">
+                                        <option value="NotYet" <?= ($reports['amc_status'] == "NotYet" ? "selected" : "") ?>>NotYet</option>
+                                        <option value="TO BE EXPIRED" <?= ($reports['amc_status'] == "TO BE EXPIRED" ? "selected" : "") ?>>TO BE EXPIRED</option>
+                                        <option value="Expired" <?= ($reports['amc_status'] == "Expired" ? "selected" : "") ?>>Expired</option>
+                                        <option value="Valid" <?= ($reports['amc_status'] == "Valid" ? "selected" : "") ?>>Valid</option>
+                                        <option value="Active" <?= ($reports['amc_status'] == "Active" ? "selected" : "") ?>>Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
                             <label for="username">No. of Visit</label>
@@ -369,7 +409,12 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" name="status" class="form-control" value="<?= ($reports['status']) ?>" required>
+                                    <!-- <input type="text" name="status" class="form-control" value="<?= ($reports['status']) ?>" required> -->
+                                    <select name="status" class="form-control">
+                                        <option value="Active" <?= ($reports['status'] == "Active" ? "selected" : "") ?>>Active</option>
+                                        <option value="In-Active" <?= ($reports['status'] == "In-Active" ? "selected" : "") ?>>In-Active</option>
+                                    </select>
+
                                 </div>
                             </div>
                         </div>
@@ -382,7 +427,7 @@
                         <div class="col-lg-8 col-md-10 col-sm-8 col-xs-7">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="file" name="required_documents" class="form-control" required>
+                                    <input type="file" name="required_documents" class="form-control">
                                 </div>
                             </div>
                         </div>
